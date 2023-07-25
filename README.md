@@ -6,9 +6,10 @@ To install all packages do the following:
 ``python3 -m venv .venv``
 
 # sourcec it 
-``source .venv/bin/activate
+``source .venv/bin/activate``
 
 # install packages
 ``pip3 install -r requirements.txt``
+
 
 
