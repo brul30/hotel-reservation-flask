@@ -8,5 +8,7 @@ To install all packages do the following:
 # sourcec it 
 ``source .venv/bin/activate
 
-#install packages
+# install packages
 ``pip3 install -r requirements.txt``
+
+
