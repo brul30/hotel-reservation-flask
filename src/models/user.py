@@ -1,12 +1,15 @@
 from src.extensions import db
 from datetime import datetime
+
 class User(db.Model):
     id = db.Column(db.Integer,primary_key=True)
-    username = db.Column(db.String(80),unique=True,nullable=False)
+    first_name = db.Column(db.String(80),unique=False,nullable=False)
+    last_name = db.Column(db.String(80),unique=False,nullable=False)
     email = db.Column(db.String(120),unique=True,nullable=False)
     password= db.Column(db.Text(),nullable=False)
     created_at = db.Column(db.DateTime,default=datetime.now())
     updated_at = db.Column(db.DateTime,onupdate=datetime.now())
-    
+    payment = db.relationship('Payment', backref='user', lazy=True)
+
     def __repr__(self) -> str:
-        return 'User>>> {self.username}'
+        return 'User>>> {self.first_name} {self.last_name}'
