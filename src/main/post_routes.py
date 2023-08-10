@@ -1,7 +1,7 @@
 from flask import Blueprint,request,jsonify 
 
 from werkzeug.security import check_password_hash,generate_password_hash
-from src.constants.http_status_codes import HTTP_400_BAD_REQUEST, HTTP_409_CONFLICT, HTTP_201_CREATED , HTTP_401_UNAUTHORIZED,HTTP_200_OK
+from src.constants.http_status_codes import HTTP_400_BAD_REQUEST, HTTP_409_CONFLICT, HTTP_201_CREATED , HTTP_401_UNAUTHORIZED,HTTP_200_OK, HTTP_404_NOT_FOUND
 import validators
 from src.extensions import db
 from src.models.user import User
@@ -93,15 +93,15 @@ def check_room_availability():
         room = HotelRoom.query.get(room_id)
 
         if not room:
-            return jsonify({'error': 'Room not found'}), 404
+            return jsonify({'error': 'Room not found'}), HTTP_404_NOT_FOUND
 
         # Check if the room is available for the specified stay period
         reservations = room.reservations
         for reservation in reservations:
             if checkin_date <= reservation.checkout_date or checkout_date >= reservation.checkin_date:
-                return jsonify({'isRoomAvailable': False}), 200
+                return jsonify({'isRoomAvailable': False}),HTTP_200_OK
 
-        return jsonify({'isRoomAvailable': True}), 200
+        return jsonify({'isRoomAvailable': True}),HTTP_200_OK
 
     except Exception as e:
-        return jsonify({'error': str(e)}), 400
+        return jsonify({'error': str(e)}),HTTP_400_BAD_REQUEST

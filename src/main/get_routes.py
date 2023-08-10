@@ -2,7 +2,7 @@ from flask import Blueprint,jsonify
 from flask_jwt_extended import create_access_token,create_refresh_token,jwt_required,get_jwt_identity
 from src.models.user import User
 from src.models.room import HotelRoom
-from src.constants.http_status_codes import HTTP_200_OK
+from src.constants.http_status_codes import HTTP_200_OK, HTTP_500_INTERNAL_SERVER_ERROR
 bp = Blueprint('get_routes',__name__,)
 
 @bp.route("/hotel/me",methods=["GET"])
@@ -42,8 +42,8 @@ def get_all_rooms():
             for room in rooms
         ]
 
-        return jsonify({'rooms': rooms_data}), 200
+        return jsonify({'rooms': rooms_data}),HTTP_200_OK
 
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': str(e)}),HTTP_500_INTERNAL_SERVER_ERROR
 

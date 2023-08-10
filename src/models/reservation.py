@@ -10,4 +10,3 @@ class Reservation(db.Model):
     checkout_date = db.Column(db.Date, nullable=False)
     reserved_date = db.Column(db.DateTime, default=datetime.now())
     total_cost = db.Column(db.Float, nullable=False)
-    payment = db.relationship('Payment', backref='reservation')
