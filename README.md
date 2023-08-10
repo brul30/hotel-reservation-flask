@@ -11,7 +11,7 @@ Welcome to the **Hotel Reservation Flask** project! Follow these steps to set up
 1. Clone the repository to your local machine:
 
     ```bash
-    git clone "https://github.com/brul30/hotel-reservation-flask"
+    git clone https://github.com/brul30/hotel-reservation-flask
     cd hotel-reservation-flask
     ```
 
