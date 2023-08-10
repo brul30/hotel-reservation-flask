@@ -49,14 +49,25 @@ Welcome to the **Hotel Reservation Flask** project! Follow these steps to set up
     ```bash
     pip install -r requirements.txt
     ```
+5. Create the database:
 
-5. Run the Application:
+    ```bash
+    flask shell
+    from src.extension import db
+    db.create_all()
+    exit()
+    ```
+
+6. Run the Application:
 
     ```bash
     flask run
     ```
 
 7. Open your web browser and navigate to `http://localhost:3000` to see the application in action.
+
+
+
 
 ## Deactivate the Virtual Environment
 
