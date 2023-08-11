@@ -70,8 +70,6 @@ Welcome to the **Hotel Reservation Flask** project! Follow these steps to set up
     flask run
     ```
 
-9. Open your web browser and navigate to `http://localhost:3000` to see the application in action.
-
 
 
 
