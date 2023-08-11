@@ -15,7 +15,13 @@ Welcome to the **Hotel Reservation Flask** project! Follow these steps to set up
     cd hotel-reservation-flask
     ```
 
-2. Create a Virtual Environment:
+2. Make sure you have Flask and SQLAlchemy installed:
+
+   ```bash
+   pip install Flask Flask-SQLAlchemy
+   ```
+
+4. Create a Virtual Environment:
 
     For Python 3.3+:
 
@@ -30,7 +36,7 @@ Welcome to the **Hotel Reservation Flask** project! Follow these steps to set up
     virtualenv venv
     ```
 
-3. Activate the Virtual Environment:
+5. Activate the Virtual Environment:
 
     On macOS and Linux:
 
@@ -44,12 +50,12 @@ Welcome to the **Hotel Reservation Flask** project! Follow these steps to set up
     venv\Scripts\activate
     ```
 
-4. Install Python Dependencies:
+6. Install Python Dependencies:
 
     ```bash
     pip install -r requirements.txt
     ```
-5. Create the database:
+7. Create the database:
 
     ```bash
     flask shell
@@ -58,13 +64,13 @@ Welcome to the **Hotel Reservation Flask** project! Follow these steps to set up
     exit()
     ```
 
-6. Run the Application:
+8. Run the Application:
 
     ```bash
     flask run
     ```
 
-7. Open your web browser and navigate to `http://localhost:3000` to see the application in action.
+9. Open your web browser and navigate to `http://localhost:3000` to see the application in action.
 
 
 
