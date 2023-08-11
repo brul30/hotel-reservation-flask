@@ -5,7 +5,7 @@ from src.constants.http_status_codes import HTTP_400_BAD_REQUEST, HTTP_409_CONFL
 import validators
 from src.extensions import db
 from src.models.user import User
-from src.models.room import HotelRoom
+# from src.models.room import Room
 from datetime import datetime
 from flask_jwt_extended import create_access_token,create_refresh_token,jwt_required,get_jwt_identity
 
@@ -76,32 +76,32 @@ def refresh_users_token():
 
 # Accept room_id, checkin_date and checkout_id
 # Return true if the room is available for the above dates
-@bp.route('/check_availability', methods=['POST'])
-def check_room_availability():
-    try:
-        # Get data from the request JSON
-        data = request.get_json()
-        room_id = data.get('room_id')
-        checkin_date_js = data.get('checkin_date')
-        checkout_date_js = data.get('checkout_date')
+# @bp.route('/check_availability', methods=['POST'])
+# def check_room_availability():
+#     try:
+#         # Get data from the request JSON
+#         data = request.get_json()
+#         room_id = data.get('room_id')
+#         checkin_date_js = data.get('checkin_date')
+#         checkout_date_js = data.get('checkout_date')
 
-        # Convert JavaScript Date objects to Python datetime objects
-        checkin_date = datetime.strptime(checkin_date_js, '%Y-%m-%dT%H:%M:%S.%fZ')
-        checkout_date = datetime.strptime(checkout_date_js, '%Y-%m-%dT%H:%M:%S.%fZ')
+#         # Convert JavaScript Date objects to Python datetime objects
+#         checkin_date = datetime.strptime(checkin_date_js, '%Y-%m-%dT%H:%M:%S.%fZ')
+#         checkout_date = datetime.strptime(checkout_date_js, '%Y-%m-%dT%H:%M:%S.%fZ')
 
-        # Fetch the room based on room_id
-        room = HotelRoom.query.get(room_id)
+#         # Fetch the room based on room_id
+#         room = Room.query.get(room_id)
 
-        if not room:
-            return jsonify({'error': 'Room not found'}), HTTP_404_NOT_FOUND
+#         if not room:
+#             return jsonify({'error': 'Room not found'}), HTTP_404_NOT_FOUND
 
-        # Check if the room is available for the specified stay period
-        reservations = room.reservations
-        for reservation in reservations:
-            if checkin_date <= reservation.checkout_date or checkout_date >= reservation.checkin_date:
-                return jsonify({'isRoomAvailable': False}),HTTP_200_OK
+#         # Check if the room is available for the specified stay period
+#         reservations = room.reservations
+#         for reservation in reservations:
+#             if checkin_date <= reservation.checkout_date or checkout_date >= reservation.checkin_date:
+#                 return jsonify({'isRoomAvailable': False}),HTTP_200_OK
 
-        return jsonify({'isRoomAvailable': True}),HTTP_200_OK
+#         return jsonify({'isRoomAvailable': True}),HTTP_200_OK
 
-    except Exception as e:
-        return jsonify({'error': str(e)}),HTTP_400_BAD_REQUEST
+#     except Exception as e:
+#         return jsonify({'error': str(e)}),HTTP_400_BAD_REQUEST

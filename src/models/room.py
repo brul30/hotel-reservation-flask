@@ -1,10 +1,19 @@
 from src.extensions import db
 
-class HotelRoom(db.Model):
+class RoomType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    room_number = db.Column(db.Integer, unique=True, nullable=False)
-    capacity = db.Column(db.Integer, nullable=False)
-    price = db.Column(db.Float, nullable=False)
-    room_type = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
+    room_number = db.Column(db.Integer)
+    price = db.Column(db.Float)
+    description = db.Column(db.String(200))
+    max_occupancy = db.Column(db.Integer)
     num_beds = db.Column(db.Integer, nullable=False)
-    floor = db.Column(db.Integer, nullable=False)
+    #rooms = db.relationship('Room', backref='room_type', lazy=True)
+
+#add Room Class alter on
+#class Room(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     room_number = db.Column(db.String(10), nullable=False)
+#     room_type_id = db.Column(db.Integer, db.ForeignKey('room_type.id'), nullable=False) """
+
+
