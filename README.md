@@ -59,7 +59,7 @@ Welcome to the **Hotel Reservation Flask** project! Follow these steps to set up
 
     ```bash
     flask shell
-    from src.extension import db
+    from src.extensions import db
     db.create_all()
     exit()
     ```
