@@ -11,7 +11,7 @@ Welcome to the **Hotel Reservation Flask** project! Follow these steps to set up
 1. Clone the repository to your local machine:
 
     ```bash
-    git clone "https://github.com/brul30/hotel-reservation-flask"
+    git clone https://github.com/brul30/hotel-reservation-flask
     cd hotel-reservation-flask
     ```
 
@@ -49,14 +49,25 @@ Welcome to the **Hotel Reservation Flask** project! Follow these steps to set up
     ```bash
     pip install -r requirements.txt
     ```
+5. Create the database:
 
-5. Run the Application:
+    ```bash
+    flask shell
+    from src.extension import db
+    db.create_all()
+    exit()
+    ```
+
+6. Run the Application:
 
     ```bash
     flask run
     ```
 
 7. Open your web browser and navigate to `http://localhost:3000` to see the application in action.
+
+
+
 
 ## Deactivate the Virtual Environment
 
