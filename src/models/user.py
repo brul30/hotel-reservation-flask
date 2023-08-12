@@ -9,6 +9,6 @@ class User(db.Model):
     password= db.Column(db.Text(),nullable=False)
     created_at = db.Column(db.DateTime,default=datetime.now())
     updated_at = db.Column(db.DateTime,onupdate=datetime.now())
-
+    reservations = db.relationship("Reservation",backref="user")
     def __repr__(self) -> str:
         return 'User>>> {self.first_name} {self.last_name}'
