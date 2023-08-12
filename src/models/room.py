@@ -9,11 +9,3 @@ class RoomType(db.Model):
     max_occupancy = db.Column(db.Integer)
     num_beds = db.Column(db.Integer, nullable=False)
     reservations = db.relationship("Reservation",backref="room_type")
-
-    #rooms = db.relationship('Room', backref='room_type', lazy=True)
-
-#add Room Class alter on
-#class Room(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     room_number = db.Column(db.String(10), nullable=False)
-#     room_type_id = db.Column(db.Integer, db.ForeignKey('room_type.id'), nullable=False) """
