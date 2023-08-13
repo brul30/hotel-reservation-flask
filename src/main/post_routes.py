@@ -1,5 +1,4 @@
 from flask import Blueprint,request,jsonify 
-
 from werkzeug.security import check_password_hash,generate_password_hash
 from src.constants.http_status_codes import HTTP_400_BAD_REQUEST, HTTP_409_CONFLICT, HTTP_201_CREATED , HTTP_401_UNAUTHORIZED,HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR
 import validators
@@ -46,6 +45,7 @@ def register():
 
 @bp.route('/auth/login',methods=["POST"])
 def login():
+    #data = request.get_json()
     email = request.json.get('email', '')
     password = request.json.get('password', '')
 
@@ -59,9 +59,12 @@ def login():
             access=create_access_token(identity=user.id)
 
             return jsonify({
-                'user':user,
-                'refresh':refresh,
-                'access': access,
+                'user':{
+                    'refresh':refresh,
+                    'access': access,
+                    'first_name':user.first_name,
+                    'email':user.email,
+                }
             }),HTTP_200_OK
     return jsonify({'error':"Wrong crdentials"}), HTTP_401_UNAUTHORIZED
 
@@ -107,6 +110,7 @@ def refresh_users_token():
 
 #     except Exception as e:
 #         return jsonify({'error': str(e)}),HTTP_400_BAD_REQUEST
+
 @bp.route('/makeReservation',methods=["POST"])
 def make_reservation():
     try:
