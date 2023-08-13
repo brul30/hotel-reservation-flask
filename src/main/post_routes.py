@@ -125,6 +125,9 @@ def make_reservation():
         date_of_occupancy = data.get('date_of_occupancy')
         date_of_departure = data.get('date_of_departure')
 
+        if room_id not in {1,2,3}:
+            return jsonify({'error':"Invalid room id"}), HTTP_401_UNAUTHORIZED
+        
 
         # Create a new reservation
         reservation = Reservation(

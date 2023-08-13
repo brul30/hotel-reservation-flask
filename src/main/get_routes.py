@@ -5,13 +5,17 @@ from src.models.room import RoomType
 from src.constants.http_status_codes import HTTP_200_OK, HTTP_500_INTERNAL_SERVER_ERROR
 bp = Blueprint('get_routes',__name__,)
 from src.extensions import db
+from src.models.reservation import Reservation
 
 
 @bp.route("/hotel/me",methods=["GET"])
 def me():
     return "me"
 
-
+# ``` 
+# This endpoint is not doing anything, I made it to rest jwt_required
+# I will deleted in due time, DO NOT DELETE 
+# ````
 @bp.route("/auth/userHomePage",methods=["GET"])
 @jwt_required()
 def check():
@@ -20,11 +24,13 @@ def check():
     user = User.query.filter_by(id=user_id).first()
 
     return jsonify({
-        'user': user,
+        'first_name' : user.first_name,
+        'id':user.id
     }),HTTP_200_OK
 
 
-@bp.route('/rooms', methods=['GET'])
+
+@bp.route('/allRooms', methods=['GET'])
 def get_all_rooms():
     try:
     # Create room type instances 
@@ -57,3 +63,31 @@ def get_all_rooms():
 
     except Exception as e:
         return jsonify({'error': str(e)}),HTTP_500_INTERNAL_SERVER_ERROR
+
+
+@bp.route('/userRooms', methods=['GET'])
+@jwt_required()
+def get_user_rooms():
+    user_id = get_jwt_identity()
+    
+    reservations = Reservation.query.filter_by(user_id=user_id).all()
+
+    reservation_list = []
+    for reservation in reservations:
+        roomtype = RoomType.query.get(reservation.room_id)
+        reservation_data = {
+            'room_details': {
+                'name': roomtype.name,
+                'room_number': roomtype.room_number,
+                'price': roomtype.price,
+                'description': roomtype.description,
+                'max_occupancy': roomtype.max_occupancy,
+                'num_beds': roomtype.num_beds
+            },
+            'date_of_occupancy': reservation.date_of_occupancy,
+            'date_of_departure': reservation.date_of_departure
+        }
+        reservation_list.append(reservation_data)
+    
+    # Return the list of reservations as JSON
+    return jsonify({'reservations': reservation_list})
