@@ -1,16 +1,12 @@
 from flask import Blueprint,jsonify
-from flask_jwt_extended import create_access_token,create_refresh_token,jwt_required,get_jwt_identity
+from flask_jwt_extended import jwt_required,get_jwt_identity
 from src.models.user import User
 from src.models.room import RoomType
 from src.constants.http_status_codes import HTTP_200_OK, HTTP_500_INTERNAL_SERVER_ERROR
-bp = Blueprint('get_routes',__name__,)
 from src.extensions import db
 from src.models.reservation import Reservation
 
-
-@bp.route("/hotel/me",methods=["GET"])
-def me():
-    return "me"
+bp = Blueprint('get_routes',__name__,)
 
 # ``` 
 # This endpoint is not doing anything, I made it to rest jwt_required
