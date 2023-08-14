@@ -77,6 +77,7 @@ def get_user_rooms():
         roomtype = RoomType.query.get(reservation.room_id)
         reservation_data = {
             'room_details': {
+                'room_id': roomtype.id,
                 'name': roomtype.name,
                 'room_number': roomtype.room_number,
                 'price': roomtype.price,
@@ -85,7 +86,8 @@ def get_user_rooms():
                 'num_beds': roomtype.num_beds
             },
             'date_of_occupancy': reservation.date_of_occupancy,
-            'date_of_departure': reservation.date_of_departure
+            'date_of_departure': reservation.date_of_departure,
+            'reservatio_id': reservation.id
         }
         reservation_list.append(reservation_data)
     
