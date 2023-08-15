@@ -1,3 +1,22 @@
+"""
+Module: http_status_codes.py
+Description: This module defines HTTP status code constants and utility functions for categorizing HTTP status codes.
+
+Constants:
+    HTTP_XXX_YYY = <status_code>: Constants representing various HTTP status codes.
+
+Functions:
+    is_informational(status): Checks if a given status code belongs to the informational (1xx) category.
+    is_success(status): Checks if a given status code belongs to the success (2xx) category.
+    is_redirect(status): Checks if a given status code belongs to the redirection (3xx) category.
+    is_client_error(status): Checks if a given status code belongs to the client error (4xx) category.
+    is_server_error(status): Checks if a given status code belongs to the server error (5xx) category.
+
+Usage Example:
+    from http_status_codes import HTTP_200_OK, is_success
+
+    if is_success(HTTP_200_OK):
+        print("The status code indicates a successful response.")"""
 HTTP_200_OK = 200
 HTTP_201_CREATED = 201
 HTTP_202_ACCEPTED = 202

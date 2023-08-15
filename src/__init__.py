@@ -7,7 +7,7 @@ from flask import Flask,jsonify
 from src.extensions import db
 from flask_jwt_extended import JWTManager
 from config import Config
-
+"""This is a factory function that controls everything that happens in the app"""
 def create_app(test_config=Config):
     
     app = Flask(__name__, instance_relative_config=True)
@@ -17,7 +17,7 @@ def create_app(test_config=Config):
     from src.main import bp as main_bp
     
    
-    
+    # Initializes the database
     db.app=app # type: ignore
     db.init_app(app)
 
@@ -28,4 +28,5 @@ def create_app(test_config=Config):
    
 
     return app
+print(help(create_app))
         

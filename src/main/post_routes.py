@@ -1,3 +1,48 @@
+"""
+post_routes Blueprint
+
+This module defines a Flask Blueprint named 'post_routes' that handles various POST endpoints related to user registration, login, token refresh, and reservation creation.
+
+Endpoints:
+1. POST /auth/register: Registers a new user.
+    - Accepts user registration data in JSON format.
+    - Returns HTTP 201 Created if successful.
+    - Returns HTTP 400 Bad Request for invalid input data.
+    - Returns HTTP 409 Conflict if the email is already taken.
+    - Returns HTTP 500 Internal Server Error for server-side issues.
+
+2. POST /auth/login: Logs in a user and provides access and refresh tokens.
+    - Accepts user login credentials in JSON format.
+    - Returns a JSON response containing access and refresh tokens, user details.
+    - Returns HTTP 200 OK if successful.
+    - Returns HTTP 401 Unauthorized for incorrect credentials.
+    - Returns HTTP 500 Internal Server Error for server-side issues.
+
+3. POST /auth/token/refresh: Refreshes an access token.
+    - Requires a valid refresh token in the Authorization header.
+    - Returns a JSON response containing a new access token.
+    - Returns HTTP 200 OK if successful.
+
+4. POST /makeReservation: Creates a new reservation.
+    - Accepts reservation data in JSON format.
+    - Returns a JSON response indicating the success of the reservation creation.
+    - Returns HTTP 200 OK if successful.
+    - Returns HTTP 401 Unauthorized for invalid room IDs.
+    - Returns HTTP 500 Internal Server Error for server-side issues.
+
+Dependencies:
+- Flask: A micro web framework for Python.
+- Flask-JWT-Extended: An extension for Flask that adds JWT support.
+- werkzeug.security: Utilities for hashing passwords.
+- src.constants.http_status_codes: A module containing constants for HTTP status codes.
+- src.extensions.db: A database extension for SQLAlchemy.
+- src.models.user.User: A User model class representing users in the system.
+- src.models.reservation.Reservation: A Reservation model class representing reservations.
+
+Attributes:
+- bp: A Blueprint instance for creating the 'post_routes' Blueprint.
+
+"""
 from flask import Blueprint,request,jsonify 
 
 from werkzeug.security import check_password_hash,generate_password_hash
@@ -80,6 +125,11 @@ def login():
 @bp.route('/auth/token/refresh',methods=["POST"])
 @jwt_required(refresh=True)
 def refresh_users_token():
+    """Refresh an access token.
+
+    Returns:
+        response (json): A JSON response containing a new access token.
+            - HTTP 200 OK: If the token is successfully refreshed."""
     identity = get_jwt_identity()
     access = create_access_token (identity=identity)
 
