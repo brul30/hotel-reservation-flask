@@ -1,7 +1,7 @@
 """
 a) main.blueprint.py
 b) August 2023
-c) Miguel Hernandez & Shawn Takhirov
+c) Miguel Hernandez 
 d) This module demonstrates the use of Flask Blueprints to organize and structure routes within a Flask application. """
 
 from flask import Blueprint

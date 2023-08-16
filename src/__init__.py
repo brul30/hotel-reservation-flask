@@ -17,16 +17,12 @@ from src.extensions import db
 from flask_jwt_extended import JWTManager
 from config import Config
 """Factory Function for Creating Flask Application
-This module contains a factory function `create_app` that is responsible for creating and configuring a Flask application for the HotelBackend project. 
-The application is configured using the provided `Config` class and is set up with necessary extensions and blueprints.
-    create_app(test_config=Config): 
-        This function creates and configures a Flask application instance. 
-        It sets up the application's configuration, initializes the database using SQLAlchemy, integrates JWT authentication using Flask-JWT-Extended, and registers a main blueprint from the `src.main` module."""
+This module contains a factory function `create_app` that is responsible for creating and configuring a Flask application for the HotelBackend project. """
 def create_app(test_config=Config):
     
     app = Flask(__name__, instance_relative_config=True)
 
-    app.config.from_object(Config)
+    app.config.from_object(Config"
 
     from src.main import bp as main_bp
     

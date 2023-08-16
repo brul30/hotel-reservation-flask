@@ -2,11 +2,11 @@
 a) Config.py
 b) July 2023
 c) Miguel Hernandez
-d) Gets our application configuration from our .env file """
+d) Gets our application configuration from our .env file. """
 
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
-""
+
 class Config: 
     """
     Attributes:
