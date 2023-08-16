@@ -1,7 +1,9 @@
-""""put_routes.py - Blueprint for handling update-related routes in a Flask web application.
-
-This blueprint defines a route and functionality for updating reservation details for a user in the application.
-
+"""
+a) put_routes.py
+b) August 2023
+c) Miguel Hernandez
+d) This blueprint defines a route and functionality for updating reservation details for a user in the application."""
+"""
 Routes:
     - PUT /update/userReservation/<int:id>: Updates reservation details for the authenticated user.
 

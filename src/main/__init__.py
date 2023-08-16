@@ -1,7 +1,9 @@
 """
-Module: main_blueprint.py
-Description: This module demonstrates the use of Flask Blueprints to organize and structure routes within a Flask application.
-
+a) main.blueprint.py
+b) August 2023
+c) Miguel Hernandez & Shawn Takhirov
+d) This module demonstrates the use of Flask Blueprints to organize and structure routes within a Flask application. """
+"""
 Usage Example:
 1. Create a new Flask application:
 

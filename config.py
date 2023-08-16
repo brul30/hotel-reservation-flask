@@ -1,25 +1,12 @@
-"""Module: config.py
-Description: This module defines a configuration class containing configuration variables for a Flask application, including database settings and JWT (JSON Web Token) secret key.
-
-Classes:
-    Config: A configuration class containing various settings for a Flask application.
-
-Usage Example:
-    # Import the Config class into your Flask application
-    from config import Config
-
-    # Create a Flask app instance and set the configuration using the Config class
-    app = Flask(__name__)
-    app.config.from_object(Config)
-
-    # Access configuration variables using the app's config attribute
-    secret_key = app.config['SECRET_KEY']
-    db_uri = app.config['SQLALCHEMY_DATABASE_URI']
-    jwt_secret_key = app.config['JWT_SECRET_KEY']
 """
+a) Config.py
+b) July 2023
+c) Miguel Hernandez & Shawn Takhirov
+d) Gets our application configuration from our .env file. """
+
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
-
+""
 class Config: 
     """
     Attributes:

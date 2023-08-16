@@ -1,7 +1,10 @@
-"""delete_routes.py - Blueprint for handling deletion-related routes in a Flask web application.
-
-This blueprint defines routes and functionality for handling various deletion operations related to users,
-rooms, and reservations within the application.
+"""
+a) delete_routes.py
+b) August 2023
+c) Miguel Hernandez
+d) This blueprint defines routes and functionality for handling various deletion operations related to users,
+rooms, and reservations within the application. """
+"""
 
 Routes:
     - DELETE /delete/user/<int:user_id>: Deletes a user account.
@@ -29,12 +32,8 @@ Blueprint Usage:
 
     app = Flask(__name__)
     app.register_blueprint(delete_bp)
-    ```
-
-Note:
-    - This docstring provides an overview of the functionality encapsulated in the 'delete_routes' blueprint.
-      Further details about specific route implementations and function logic can be found within the
-      corresponding routes defined in this blueprint."""
+    ``` """
+    
 from flask import Blueprint,request,jsonify 
 from src.constants.http_status_codes import HTTP_400_BAD_REQUEST, HTTP_409_CONFLICT, HTTP_201_CREATED , HTTP_401_UNAUTHORIZED,HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR,HTTP_204_NO_CONTENT
 from src.extensions import db

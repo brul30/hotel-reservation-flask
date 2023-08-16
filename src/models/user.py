@@ -1,7 +1,9 @@
 """
-Module: user_model.py
-Description: This module defines the User class model used for storing user information in a database.
-
+a) user.py
+b) July 2023
+c) Miguel Hernandez
+d) This module defines the User class model used for storing user information in a database."""
+""""
 Classes:
     User: A class representing a user, including details such as name, email, password, and reservation history.
 

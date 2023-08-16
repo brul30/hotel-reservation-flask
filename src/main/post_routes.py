@@ -1,8 +1,11 @@
 """
-post_routes Blueprint
+a) post_routes.py
+b) August 2023
+c) Miguel Hernandez 
+d) This module defines a Flask Blueprint named 'post_routes' 
+that handles various POST endpoints related to user registration, login, token refresh, and reservation creation."""
 
-This module defines a Flask Blueprint named 'post_routes' that handles various POST endpoints related to user registration, login, token refresh, and reservation creation.
-
+""""
 Endpoints:
 1. POST /auth/register: Registers a new user.
     - Accepts user registration data in JSON format.

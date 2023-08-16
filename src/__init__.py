@@ -1,3 +1,10 @@
+"""
+a) __init__.py
+b) July 2023
+c) Miguel Hernandez 
+d) This File will contain the application factory. 
+It's used to initialize the application instance and set up any necessary configurations or extensions.
+e) N/A """
 #factory function
 #everytime we import src __init__.py is automatically imported
 

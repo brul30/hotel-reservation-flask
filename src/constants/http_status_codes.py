@@ -1,7 +1,9 @@
 """
-Module: http_status_codes.py
-Description: This module defines HTTP status code constants and utility functions for categorizing HTTP status codes.
-
+a) http_status_codes.py
+b) July 2023 
+c) Miguel Hernandez
+d) This module defines HTTP status code constants and utility functions for categorizing HTTP status codes."""
+"""
 Constants:
     HTTP_XXX_YYY = <status_code>: Constants representing various HTTP status codes.
 

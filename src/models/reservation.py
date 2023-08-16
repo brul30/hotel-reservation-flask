@@ -1,6 +1,10 @@
 """
-Module: reservation_model.py
-Description: This module defines the Reservation class model used for storing reservation information in a database.
+a) Reservation.py
+b) July 2023
+c) Miguel Hernandez & Shawn Takhirov
+d)  This module defines the Reservation class model used for storing reservation information in a database."""
+
+"""
 
 Classes:
     Reservation: A class representing a reservation, containing details such as room, user, guests, dates, cost, and payment.

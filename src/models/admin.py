@@ -1,3 +1,8 @@
+"""
+a) admin.py
+b) July 2023
+c) Miguel Hernandez
+d) This module defines the Manager class model used for representing managers in a database. """
 from src.extensions import db
 # We use models to definte and create classes
 class Manager(db.Model):

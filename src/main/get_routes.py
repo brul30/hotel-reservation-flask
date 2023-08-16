@@ -1,9 +1,11 @@
 """
-get_routes Blueprint
+a) get_routes.py
+b) August 2023
+c) Miguel Hernandez
+d) This module defines a Flask Blueprint named 'get_routes' that handles various GET endpoints related to retrieving room and reservation information.
+e) It provides routes for fetching room details, user-specific reservations, and a test endpoint. """
 
-This module defines a Flask Blueprint named 'get_routes' that handles various GET endpoints related to retrieving room and reservation information. It provides routes for fetching room details, user-specific reservations, and a test endpoint.
-
-Endpoints:
+"""Endpoints:
 1. GET /auth/userHomePage: A test endpoint to check user authentication.
     - Requires JWT authentication.
     - Returns user's first name and ID in JSON format.
@@ -12,7 +14,7 @@ Endpoints:
 2. GET /allRooms: Fetches details of all room types.
     - Returns a list of room dictionaries in JSON format.
     - Returns HTTP 200 OK if successful.
-    - Returns HTTP 500 Internal Server Error if there is a server-side issue.
+    - Returns HTTP 500 Internal Server Error if there is a server-side issue"
 
 3. GET /userRooms: Fetches reservations made by the authenticated user.
     - Requires JWT authentication.

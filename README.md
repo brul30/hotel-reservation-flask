@@ -1,5 +1,5 @@
 # Hotel Reservation Flask
-
+# This file contains instructions for how to set a working environment for our development team."""
 Welcome to the **Hotel Reservation Flask** project! Follow these steps to set up your Python development environment and run the project locally.
 
 ## Prerequisites

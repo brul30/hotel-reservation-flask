@@ -1,7 +1,9 @@
 """
-Module: hotel_room_model.py
-Description: This module defines the HotelRoom class model used for storing hotel room information in a database.
-
+a) room.py
+b) July 2023
+c) Miguel Hernandez
+d) This module defines the HotelRoom class model used for storing hotel room information in a database."""
+"""
 Classes:
     HotelRoom: A class representing a hotel room, including details such as room number, capacity, status, price, and more.
 
