@@ -77,47 +77,6 @@
 <span class="sd">d) This module defines a Flask Blueprint named &#39;post_routes&#39; </span>
 <span class="sd">that handles various POST endpoints related to user registration, login, token refresh, and reservation creation.&quot;&quot;&quot;</span>
 
-<span class="sd">&quot;&quot;&quot;&quot;</span>
-<span class="sd">Endpoints:</span>
-<span class="sd">1. POST /auth/register: Registers a new user.</span>
-<span class="sd">    - Accepts user registration data in JSON format.</span>
-<span class="sd">    - Returns HTTP 201 Created if successful.</span>
-<span class="sd">    - Returns HTTP 400 Bad Request for invalid input data.</span>
-<span class="sd">    - Returns HTTP 409 Conflict if the email is already taken.</span>
-<span class="sd">    - Returns HTTP 500 Internal Server Error for server-side issues.</span>
-
-<span class="sd">2. POST /auth/login: Logs in a user and provides access and refresh tokens.</span>
-<span class="sd">    - Accepts user login credentials in JSON format.</span>
-<span class="sd">    - Returns a JSON response containing access and refresh tokens, user details.</span>
-<span class="sd">    - Returns HTTP 200 OK if successful.</span>
-<span class="sd">    - Returns HTTP 401 Unauthorized for incorrect credentials.</span>
-<span class="sd">    - Returns HTTP 500 Internal Server Error for server-side issues.</span>
-
-<span class="sd">3. POST /auth/token/refresh: Refreshes an access token.</span>
-<span class="sd">    - Requires a valid refresh token in the Authorization header.</span>
-<span class="sd">    - Returns a JSON response containing a new access token.</span>
-<span class="sd">    - Returns HTTP 200 OK if successful.</span>
-
-<span class="sd">4. POST /makeReservation: Creates a new reservation.</span>
-<span class="sd">    - Accepts reservation data in JSON format.</span>
-<span class="sd">    - Returns a JSON response indicating the success of the reservation creation.</span>
-<span class="sd">    - Returns HTTP 200 OK if successful.</span>
-<span class="sd">    - Returns HTTP 401 Unauthorized for invalid room IDs.</span>
-<span class="sd">    - Returns HTTP 500 Internal Server Error for server-side issues.</span>
-
-<span class="sd">Dependencies:</span>
-<span class="sd">- Flask: A micro web framework for Python.</span>
-<span class="sd">- Flask-JWT-Extended: An extension for Flask that adds JWT support.</span>
-<span class="sd">- werkzeug.security: Utilities for hashing passwords.</span>
-<span class="sd">- src.constants.http_status_codes: A module containing constants for HTTP status codes.</span>
-<span class="sd">- src.extensions.db: A database extension for SQLAlchemy.</span>
-<span class="sd">- src.models.user.User: A User model class representing users in the system.</span>
-<span class="sd">- src.models.reservation.Reservation: A Reservation model class representing reservations.</span>
-
-<span class="sd">Attributes:</span>
-<span class="sd">- bp: A Blueprint instance for creating the &#39;post_routes&#39; Blueprint.</span>
-
-<span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Blueprint</span><span class="p">,</span><span class="n">request</span><span class="p">,</span><span class="n">jsonify</span> 
 
 <span class="kn">from</span> <span class="nn">werkzeug.security</span> <span class="kn">import</span> <span class="n">check_password_hash</span><span class="p">,</span><span class="n">generate_password_hash</span>

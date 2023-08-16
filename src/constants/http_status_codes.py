@@ -2,23 +2,13 @@
 a) http_status_codes.py
 b) July 2023 
 c) Miguel Hernandez
-d) This module defines HTTP status code constants and utility functions for categorizing HTTP status codes."""
-"""
-Constants:
-    HTTP_XXX_YYY = <status_code>: Constants representing various HTTP status codes.
+d) This module defines HTTP status code constants and utility functions for categorizing HTTP status codes.
+e)is_informational(status): Checks if a given status code belongs to the informational (1xx) category.
+is_success(status): Checks if a given status code belongs to the success (2xx) category.
+is_redirect(status): Checks if a given status code belongs to the redirection (3xx) category.
+is_client_error(status): Checks if a given status code belongs to the client error (4xx) category.
+is_server_error(status): Checks if a given status code belongs to the server error (5xx) category."""
 
-Functions:
-    is_informational(status): Checks if a given status code belongs to the informational (1xx) category.
-    is_success(status): Checks if a given status code belongs to the success (2xx) category.
-    is_redirect(status): Checks if a given status code belongs to the redirection (3xx) category.
-    is_client_error(status): Checks if a given status code belongs to the client error (4xx) category.
-    is_server_error(status): Checks if a given status code belongs to the server error (5xx) category.
-
-Usage Example:
-    from http_status_codes import HTTP_200_OK, is_success
-
-    if is_success(HTTP_200_OK):
-        print("The status code indicates a successful response.")"""
 HTTP_200_OK = 200
 HTTP_201_CREATED = 201
 HTTP_202_ACCEPTED = 202
@@ -32,7 +22,7 @@ HTTP_226_IM_USED = 226
 HTTP_300_MULTIPLE_CHOICES = 300
 HTTP_301_MOVED_PERMANENTLY = 301
 HTTP_302_FOUND = 302
-HTTP_303_SEE_OTHER = 303
+HTTP_303_SEE_OTHER = 30
 HTTP_304_NOT_MODIFIED = 304
 HTTP_305_USE_PROXY = 305
 HTTP_306_RESERVED = 306

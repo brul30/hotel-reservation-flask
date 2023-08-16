@@ -74,49 +74,25 @@
 <span class="sd">b) July 2023</span>
 <span class="sd">c) Miguel Hernandez </span>
 <span class="sd">d) This File will contain the application factory. </span>
-<span class="sd">It&#39;s used to initialize the application instance and set up any necessary configurations or extensions.</span>
-<span class="sd">e) N/A &quot;&quot;&quot;</span>
+<span class="sd">It&#39;s used to initialize the application instance and set up any necessary configurations or extensions. </span>
+<span class="sd">e) Serves as a factory function, every time we import src __init__.py is automatically imported</span>
+<span class="sd">The __init__.py serves double duty: it will contain the application factory, </span>
+<span class="sd">and it tells Python that the HotelBackend directory should be treated as a package. &quot;&quot;&quot;</span>
 <span class="c1">#factory function</span>
 <span class="c1">#everytime we import src __init__.py is automatically imported</span>
 
 <span class="c1"># The __init__.py serves double duty: it will contain the application factory, </span>
-<span class="c1"># and it tells Python that the HotelBackend directory should be treated as a package.</span>
+<span class="c1"># and it tells Python that the HotelBackend directory should be treated as a package&quot;</span>
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span><span class="n">jsonify</span>
 <span class="kn">from</span> <span class="nn">src.extensions</span> <span class="kn">import</span> <span class="n">db</span>
 <span class="kn">from</span> <span class="nn">flask_jwt_extended</span> <span class="kn">import</span> <span class="n">JWTManager</span>
 <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">Config</span>
 <span class="sd">&quot;&quot;&quot;Factory Function for Creating Flask Application</span>
-
-<span class="sd">This module contains a factory function `create_app` that is responsible for creating and configuring a Flask application for the HotelBackend project. The application is configured using the provided `Config` class and is set up with necessary extensions and blueprints.</span>
-
-<span class="sd">Functions:</span>
+<span class="sd">This module contains a factory function `create_app` that is responsible for creating and configuring a Flask application for the HotelBackend project. </span>
+<span class="sd">The application is configured using the provided `Config` class and is set up with necessary extensions and blueprints.</span>
 <span class="sd">    create_app(test_config=Config): </span>
-<span class="sd">        This function creates and configures a Flask application instance. It sets up the application&#39;s configuration, initializes the database using SQLAlchemy, integrates JWT authentication using Flask-JWT-Extended, and registers a main blueprint from the `src.main` module. The main blueprint likely contains routes and views for the core functionality of the application.</span>
-
-<span class="sd">    Parameters:</span>
-<span class="sd">        test_config (class, optional): </span>
-<span class="sd">            An optional configuration class to use when creating the application. The default is the `Config` class provided in the configuration module.</span>
-
-<span class="sd">Returns:</span>
-<span class="sd">    app (Flask):</span>
-<span class="sd">        The configured Flask application instance ready to be run.</span>
-
-<span class="sd">Note:</span>
-<span class="sd">    - The `__init__.py` file serves as a package initializer and is automatically imported when the `src` module is imported.</span>
-<span class="sd">    - The `Config` class holds configuration settings for the application.</span>
-<span class="sd">    - The application factory pattern allows for easier testing and flexibility in configuration changes by creating separate instances of the application.</span>
-<span class="sd">    - The factory function initializes the database, JWT authentication, and blueprints to structure the application&#39;s components.</span>
-
-<span class="sd">Example Usage:</span>
-<span class="sd">    # Creating the Flask application using the default configuration</span>
-<span class="sd">    from app import create_app</span>
-<span class="sd">    app = create_app()</span>
-<span class="sd">    app.run()</span>
-
-<span class="sd">    # Creating the Flask application with a custom configuration</span>
-<span class="sd">    from config import DevelopmentConfig</span>
-<span class="sd">    app = create_app(test_config=DevelopmentConfig)</span>
-<span class="sd">    app.run()&quot;&quot;&quot;</span>
+<span class="sd">        This function creates and configures a Flask application instance. </span>
+<span class="sd">        It sets up the application&#39;s configuration, initializes the database using SQLAlchemy, integrates JWT authentication using Flask-JWT-Extended, and registers a main blueprint from the `src.main` module.&quot;&quot;&quot;</span>
 <div class="viewcode-block" id="create_app"><a class="viewcode-back" href="../src.html#src.create_app">[docs]</a><span class="k">def</span> <span class="nf">create_app</span><span class="p">(</span><span class="n">test_config</span><span class="o">=</span><span class="n">Config</span><span class="p">):</span>
     
     <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">instance_relative_config</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>

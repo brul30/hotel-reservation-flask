@@ -3,37 +3,10 @@ a) get_routes.py
 b) August 2023
 c) Miguel Hernandez
 d) This module defines a Flask Blueprint named 'get_routes' that handles various GET endpoints related to retrieving room and reservation information.
-e) It provides routes for fetching room details, user-specific reservations, and a test endpoint. """
-
-"""Endpoints:
-1. GET /auth/userHomePage: A test endpoint to check user authentication.
-    - Requires JWT authentication.
-    - Returns user's first name and ID in JSON format.
-    - Returns HTTP 200 OK if successful.
-
-2. GET /allRooms: Fetches details of all room types.
-    - Returns a list of room dictionaries in JSON format.
-    - Returns HTTP 200 OK if successful.
-    - Returns HTTP 500 Internal Server Error if there is a server-side issue"
-
-3. GET /userRooms: Fetches reservations made by the authenticated user.
-    - Requires JWT authentication.
-    - Returns a list of reservation dictionaries in JSON format.
-    - Returns HTTP 200 OK if successful.
-
-Dependencies:
-- Flask: A micro web framework for Python.
-- Flask-JWT-Extended: An extension for Flask that adds JWT support.
-- src.models.user.User: A User model class representing users in the system.
-- src.models.room.RoomType: A RoomType model class representing different types of rooms.
-- src.constants.http_status_codes: A module containing constants for HTTP status codes.
-- src.extensions.db: A database extension for SQLAlchemy.
-- src.models.reservation.Reservation: A Reservation model class representing reservations.
-
-Attributes:
-- bp: A Blueprint instance for creating the 'get_routes' Blueprint.
-
-"""
+e) It provides routes for fetching room details, user-specific reservations, and a test endpoint.
+Requires JWT authentication.
+Returns user's first name and ID in JSON format.
+Returns HTTP 200 OK if successful. """
 from flask import Blueprint,jsonify
 from flask_jwt_extended import create_access_token,create_refresh_token,jwt_required,get_jwt_identity
 from src.models.user import User

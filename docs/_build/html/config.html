@@ -91,28 +91,18 @@
 <ol class="loweralpha simple">
 <li><p>Config.py</p></li>
 <li><p>July 2023</p></li>
-<li><p>Miguel Hernandez &amp; Shawn Takhirov</p></li>
-<li><p>Gets our application configuration from our .env file.</p></li>
+<li><p>Miguel Hernandez</p></li>
+<li><p>Gets our application configuration from our .env file</p></li>
 </ol>
 <dl class="py class">
 <dt class="sig sig-object py" id="config.Config">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">Config</span></span><a class="reference internal" href="_modules/config.html#Config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.Config" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl>
+<dl class="simple">
 <dt>Attributes:</dt><dd><p>SECRET_KEY (str): Secret key used for securing the application and sessions.
 SQLALCHEMY_DATABASE_URI (str): URI for connecting to the database.
 SQLALCHEMY_TRACK_MODIFICATIONS (bool): Disable Flask-SQLAlchemy modification tracking.
 JWT_SECRET_KEY (str): Secret key used for encoding and decoding JSON Web Tokens (JWT).</p>
-</dd>
-<dt>Usage Example:</dt><dd><p># Import the Config class into your Flask application
-from config import Config</p>
-<p># Create a Flask app instance and set the configuration using the Config class
-app = Flask(__name__)
-app.config.from_object(Config)</p>
-<p># Access configuration variables using the app’s config attribute
-secret_key = app.config[‘SECRET_KEY’]
-db_uri = app.config[‘SQLALCHEMY_DATABASE_URI’]
-jwt_secret_key = app.config[‘JWT_SECRET_KEY’]</p>
 </dd>
 </dl>
 <dl class="py attribute">

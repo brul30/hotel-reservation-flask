@@ -75,37 +75,10 @@
 <span class="sd">b) August 2023</span>
 <span class="sd">c) Miguel Hernandez</span>
 <span class="sd">d) This module defines a Flask Blueprint named &#39;get_routes&#39; that handles various GET endpoints related to retrieving room and reservation information.</span>
-<span class="sd">e) It provides routes for fetching room details, user-specific reservations, and a test endpoint. &quot;&quot;&quot;</span>
-
-<span class="sd">&quot;&quot;&quot;Endpoints:</span>
-<span class="sd">1. GET /auth/userHomePage: A test endpoint to check user authentication.</span>
-<span class="sd">    - Requires JWT authentication.</span>
-<span class="sd">    - Returns user&#39;s first name and ID in JSON format.</span>
-<span class="sd">    - Returns HTTP 200 OK if successful.</span>
-
-<span class="sd">2. GET /allRooms: Fetches details of all room types.</span>
-<span class="sd">    - Returns a list of room dictionaries in JSON format.</span>
-<span class="sd">    - Returns HTTP 200 OK if successful.</span>
-<span class="sd">    - Returns HTTP 500 Internal Server Error if there is a server-side issue&quot;</span>
-
-<span class="sd">3. GET /userRooms: Fetches reservations made by the authenticated user.</span>
-<span class="sd">    - Requires JWT authentication.</span>
-<span class="sd">    - Returns a list of reservation dictionaries in JSON format.</span>
-<span class="sd">    - Returns HTTP 200 OK if successful.</span>
-
-<span class="sd">Dependencies:</span>
-<span class="sd">- Flask: A micro web framework for Python.</span>
-<span class="sd">- Flask-JWT-Extended: An extension for Flask that adds JWT support.</span>
-<span class="sd">- src.models.user.User: A User model class representing users in the system.</span>
-<span class="sd">- src.models.room.RoomType: A RoomType model class representing different types of rooms.</span>
-<span class="sd">- src.constants.http_status_codes: A module containing constants for HTTP status codes.</span>
-<span class="sd">- src.extensions.db: A database extension for SQLAlchemy.</span>
-<span class="sd">- src.models.reservation.Reservation: A Reservation model class representing reservations.</span>
-
-<span class="sd">Attributes:</span>
-<span class="sd">- bp: A Blueprint instance for creating the &#39;get_routes&#39; Blueprint.</span>
-
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">e) It provides routes for fetching room details, user-specific reservations, and a test endpoint.</span>
+<span class="sd">Requires JWT authentication.</span>
+<span class="sd">Returns user&#39;s first name and ID in JSON format.</span>
+<span class="sd">Returns HTTP 200 OK if successful. &quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Blueprint</span><span class="p">,</span><span class="n">jsonify</span>
 <span class="kn">from</span> <span class="nn">flask_jwt_extended</span> <span class="kn">import</span> <span class="n">create_access_token</span><span class="p">,</span><span class="n">create_refresh_token</span><span class="p">,</span><span class="n">jwt_required</span><span class="p">,</span><span class="n">get_jwt_identity</span>
 <span class="kn">from</span> <span class="nn">src.models.user</span> <span class="kn">import</span> <span class="n">User</span>
