@@ -1,3 +1,4 @@
+import datetime
 from flask import Blueprint,request,jsonify 
 from werkzeug.security import check_password_hash,generate_password_hash
 from src.constants.http_status_codes import HTTP_400_BAD_REQUEST, HTTP_409_CONFLICT, HTTP_201_CREATED , HTTP_401_UNAUTHORIZED,HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR
@@ -93,12 +94,22 @@ def make_reservation():
         room_id = data.get('room_id')
         user_id = data.get('user_id')
         card_number = data.get('card_number')
-        date_of_occupancy = data.get('date_of_occupancy')
-        date_of_departure = data.get('date_of_departure')
+
+
+        date_of_occupancy = datetime.datetime(
+            year=data.get("date_of_occupancy")["year"],
+            month=data.get("date_of_occupancy")["month"],
+            day=data.get("date_of_occupancy")["day"]
+        )
+        date_of_departure = datetime.datetime(
+            year=data.get("date_of_departure")["year"],
+            month=data.get("date_of_departure")["month"],
+            day=data.get("date_of_departure")["day"]
+        )
 
         if room_id not in {1,2,3}:
             return jsonify({'error':"Invalid room id"}), HTTP_401_UNAUTHORIZED
-        
+
 
         # Create a new reservation
         reservation = Reservation(
