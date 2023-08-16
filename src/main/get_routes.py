@@ -5,7 +5,6 @@ from src.models.room import RoomType
 from src.constants.http_status_codes import HTTP_200_OK, HTTP_500_INTERNAL_SERVER_ERROR
 from src.extensions import db
 from src.models.reservation import Reservation
-
 bp = Blueprint('get_routes',__name__,)
 
 # ``` 
@@ -89,3 +88,5 @@ def get_user_rooms():
     
     # Return the list of reservations as JSON
     return jsonify({'reservations': reservation_list})
+
+
