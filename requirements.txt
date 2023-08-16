@@ -1,11 +1,4 @@
-"""
-a) Requirements.txt
-b) July 2023
-c) Miguel Hernandez and Shawn Takhirov
-d) This file contains all dependencies and libraries used by our application along with its versions."""
-
-alabaster==0.7.13
-Babel==2.12.1
+# These are the required packages that have to be installed for the back end development of the project. 
 blinker==1.6.2
 certifi==2023.7.22
 charset-normalizer==3.2.0
@@ -47,5 +40,3 @@ urllib3==2.0.4
 validators==0.20.0
 virtualenv==20.24.2
 Werkzeug==2.3.6
-Sphinx==7.1.2
-```
