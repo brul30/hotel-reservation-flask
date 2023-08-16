@@ -53,6 +53,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#config.Config.SQLALCHEMY_TRACK_MODIFICATIONS"><code class="docutils literal notranslate"><span class="pre">Config.SQLALCHEMY_TRACK_MODIFICATIONS</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#config.basedir"><code class="docutils literal notranslate"><span class="pre">basedir</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="src.html">src package</a></li>
@@ -87,22 +88,12 @@
              
   <section id="module-config">
 <span id="config-module"></span><h1>config module<a class="headerlink" href="#module-config" title="Permalink to this heading"></a></h1>
-<p>Module: config.py
-Description: This module defines a configuration class containing configuration variables for a Flask application, including database settings and JWT (JSON Web Token) secret key.</p>
-<dl>
-<dt>Classes:</dt><dd><p>Config: A configuration class containing various settings for a Flask application.</p>
-</dd>
-<dt>Usage Example:</dt><dd><p># Import the Config class into your Flask application
-from config import Config</p>
-<p># Create a Flask app instance and set the configuration using the Config class
-app = Flask(__name__)
-app.config.from_object(Config)</p>
-<p># Access configuration variables using the app’s config attribute
-secret_key = app.config[‘SECRET_KEY’]
-db_uri = app.config[‘SQLALCHEMY_DATABASE_URI’]
-jwt_secret_key = app.config[‘JWT_SECRET_KEY’]</p>
-</dd>
-</dl>
+<ol class="loweralpha simple">
+<li><p>Config.py</p></li>
+<li><p>July 2023</p></li>
+<li><p>Miguel Hernandez &amp; Shawn Takhirov</p></li>
+<li><p>Gets our application configuration from our .env file.</p></li>
+</ol>
 <dl class="py class">
 <dt class="sig sig-object py" id="config.Config">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">Config</span></span><a class="reference internal" href="_modules/config.html#Config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.Config" title="Permalink to this definition"></a></dt>
@@ -145,6 +136,11 @@ jwt_secret_key = app.config[‘JWT_SECRET_KEY’]</p>
 <dd></dd></dl>
 
 </dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="config.basedir">
+<span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">basedir</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/Users/shawn/Documents/GitHub/hotel-reservation-flask'</span></em><a class="headerlink" href="#config.basedir" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 </section>
 

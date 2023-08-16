@@ -95,47 +95,13 @@
 </section>
 <section id="module-src.main.get_routes">
 <span id="src-main-get-routes-module"></span><h2>src.main.get_routes module<a class="headerlink" href="#module-src.main.get_routes" title="Permalink to this heading"></a></h2>
-<p>get_routes Blueprint</p>
-<p>This module defines a Flask Blueprint named ‘get_routes’ that handles various GET endpoints related to retrieving room and reservation information. It provides routes for fetching room details, user-specific reservations, and a test endpoint.</p>
-<p>Endpoints:
-1. GET /auth/userHomePage: A test endpoint to check user authentication.</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Requires JWT authentication.</p></li>
-<li><p>Returns user’s first name and ID in JSON format.</p></li>
-<li><p>Returns HTTP 200 OK if successful.</p></li>
-</ul>
-</div></blockquote>
-<ol class="arabic simple" start="2">
-<li><dl class="simple">
-<dt>GET /allRooms: Fetches details of all room types.</dt><dd><ul class="simple">
-<li><p>Returns a list of room dictionaries in JSON format.</p></li>
-<li><p>Returns HTTP 200 OK if successful.</p></li>
-<li><p>Returns HTTP 500 Internal Server Error if there is a server-side issue.</p></li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>GET /userRooms: Fetches reservations made by the authenticated user.</dt><dd><ul class="simple">
-<li><p>Requires JWT authentication.</p></li>
-<li><p>Returns a list of reservation dictionaries in JSON format.</p></li>
-<li><p>Returns HTTP 200 OK if successful.</p></li>
-</ul>
-</dd>
-</dl>
-</li>
+<ol class="loweralpha simple">
+<li><p>get_routes.py</p></li>
+<li><p>August 2023</p></li>
+<li><p>Miguel Hernandez</p></li>
+<li><p>This module defines a Flask Blueprint named ‘get_routes’ that handles various GET endpoints related to retrieving room and reservation information.</p></li>
+<li><p>It provides routes for fetching room details, user-specific reservations, and a test endpoint.</p></li>
 </ol>
-<p>Dependencies:
-- Flask: A micro web framework for Python.
-- Flask-JWT-Extended: An extension for Flask that adds JWT support.
-- src.models.user.User: A User model class representing users in the system.
-- src.models.room.RoomType: A RoomType model class representing different types of rooms.
-- src.constants.http_status_codes: A module containing constants for HTTP status codes.
-- src.extensions.db: A database extension for SQLAlchemy.
-- src.models.reservation.Reservation: A Reservation model class representing reservations.</p>
-<p>Attributes:
-- bp: A Blueprint instance for creating the ‘get_routes’ Blueprint.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="src.main.get_routes.check">
 <span class="sig-prename descclassname"><span class="pre">src.main.get_routes.</span></span><span class="sig-name descname"><span class="pre">check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/main/get_routes.html#check"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.main.get_routes.check" title="Permalink to this definition"></a></dt>
@@ -159,62 +125,13 @@
 </section>
 <section id="module-src.main.post_routes">
 <span id="src-main-post-routes-module"></span><h2>src.main.post_routes module<a class="headerlink" href="#module-src.main.post_routes" title="Permalink to this heading"></a></h2>
-<p>post_routes Blueprint</p>
-<p>This module defines a Flask Blueprint named ‘post_routes’ that handles various POST endpoints related to user registration, login, token refresh, and reservation creation.</p>
-<p>Endpoints:
-1. POST /auth/register: Registers a new user.</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Accepts user registration data in JSON format.</p></li>
-<li><p>Returns HTTP 201 Created if successful.</p></li>
-<li><p>Returns HTTP 400 Bad Request for invalid input data.</p></li>
-<li><p>Returns HTTP 409 Conflict if the email is already taken.</p></li>
-<li><p>Returns HTTP 500 Internal Server Error for server-side issues.</p></li>
-</ul>
-</div></blockquote>
-<ol class="arabic simple" start="2">
-<li><dl class="simple">
-<dt>POST /auth/login: Logs in a user and provides access and refresh tokens.</dt><dd><ul class="simple">
-<li><p>Accepts user login credentials in JSON format.</p></li>
-<li><p>Returns a JSON response containing access and refresh tokens, user details.</p></li>
-<li><p>Returns HTTP 200 OK if successful.</p></li>
-<li><p>Returns HTTP 401 Unauthorized for incorrect credentials.</p></li>
-<li><p>Returns HTTP 500 Internal Server Error for server-side issues.</p></li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>POST /auth/token/refresh: Refreshes an access token.</dt><dd><ul class="simple">
-<li><p>Requires a valid refresh token in the Authorization header.</p></li>
-<li><p>Returns a JSON response containing a new access token.</p></li>
-<li><p>Returns HTTP 200 OK if successful.</p></li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>POST /makeReservation: Creates a new reservation.</dt><dd><ul class="simple">
-<li><p>Accepts reservation data in JSON format.</p></li>
-<li><p>Returns a JSON response indicating the success of the reservation creation.</p></li>
-<li><p>Returns HTTP 200 OK if successful.</p></li>
-<li><p>Returns HTTP 401 Unauthorized for invalid room IDs.</p></li>
-<li><p>Returns HTTP 500 Internal Server Error for server-side issues.</p></li>
-</ul>
-</dd>
-</dl>
-</li>
+<ol class="loweralpha simple">
+<li><p>post_routes.py</p></li>
+<li><p>August 2023</p></li>
+<li><p>Miguel Hernandez</p></li>
 </ol>
-<p>Dependencies:
-- Flask: A micro web framework for Python.
-- Flask-JWT-Extended: An extension for Flask that adds JWT support.
-- werkzeug.security: Utilities for hashing passwords.
-- src.constants.http_status_codes: A module containing constants for HTTP status codes.
-- src.extensions.db: A database extension for SQLAlchemy.
-- src.models.user.User: A User model class representing users in the system.
-- src.models.reservation.Reservation: A Reservation model class representing reservations.</p>
-<p>Attributes:
-- bp: A Blueprint instance for creating the ‘post_routes’ Blueprint.</p>
+<p>d) This module defines a Flask Blueprint named ‘post_routes’ 
+that handles various POST endpoints related to user registration, login, token refresh, and reservation creation.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="src.main.post_routes.login">
 <span class="sig-prename descclassname"><span class="pre">src.main.post_routes.</span></span><span class="sig-name descname"><span class="pre">login</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/main/post_routes.html#login"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.main.post_routes.login" title="Permalink to this definition"></a></dt>
@@ -246,42 +163,12 @@
 </section>
 <section id="module-src.main">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-src.main" title="Permalink to this heading"></a></h2>
-<p>Module: main_blueprint.py
-Description: This module demonstrates the use of Flask Blueprints to organize and structure routes within a Flask application.</p>
-<p>Usage Example:
-1. Create a new Flask application:</p>
-<blockquote>
-<div><p>from flask import Flask
-app = Flask(__name__)</p>
-</div></blockquote>
-<ol class="arabic" start="2">
-<li><p>Import and create the main Blueprint instance:</p>
-<p>from flask import Blueprint
-bp = Blueprint(‘main’, __name__, url_prefix=”/api/v1”)</p>
-</li>
-<li><p>Import and register sub-Blueprints (get_routes and post_routes):</p>
-<p>from src.main.get_routes import bp as get_bp
-from src.main.post_routes import bp as post_bp</p>
-<p>bp.register_blueprint(get_bp)
-bp.register_blueprint(post_bp)
-4. Register the main Blueprint with the Flask application:</p>
-<p>app.register_blueprint(bp)</p>
-</li>
+<ol class="loweralpha simple">
+<li><p>main.blueprint.py</p></li>
+<li><p>August 2023</p></li>
+<li><p>Miguel Hernandez &amp; Shawn Takhirov</p></li>
+<li><p>This module demonstrates the use of Flask Blueprints to organize and structure routes within a Flask application.</p></li>
 </ol>
-<ol class="arabic" start="5">
-<li><p>Run the Flask application:</p>
-<dl class="simple">
-<dt>if __name__ == “__main__”:</dt><dd><p>app.run()
-Purpose of Using Blueprints:</p>
-</dd>
-</dl>
-</li>
-</ol>
-<ul class="simple">
-<li><p>Flask Blueprints help modularize and organize your application’s routes and views.</p></li>
-<li><p>They encourage good design practices by allowing you to create reusable components.</p></li>
-<li><p>Blueprint URLs are automatically prefixed with the specified URL prefix, enhancing route organization.</p></li>
-</ul>
 </section>
 </section>
 
