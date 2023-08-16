@@ -35,17 +35,8 @@ Note:
     - The `Config` class holds configuration settings for the application.
     - The application factory pattern allows for easier testing and flexibility in configuration changes by creating separate instances of the application.
     - The factory function initializes the database, JWT authentication, and blueprints to structure the application's components.
+"""
 
-Example Usage:
-    # Creating the Flask application using the default configuration
-    from app import create_app
-    app = create_app()
-    app.run()
-
-    # Creating the Flask application with a custom configuration
-    from config import DevelopmentConfig
-    app = create_app(test_config=DevelopmentConfig)
-    app.run()"""
 def create_app(test_config=Config):
     
     app = Flask(__name__, instance_relative_config=True)
