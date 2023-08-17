@@ -1,5 +1,4 @@
 from flask import Blueprint
-
 bp = Blueprint('main',__name__,url_prefix="/api/v1")
 
 from src.main.get_routes import bp as get_bp

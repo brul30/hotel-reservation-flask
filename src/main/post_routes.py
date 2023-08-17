@@ -77,7 +77,7 @@ def login():
                        # 'refresh':refresh,
                         'access': access,
                         'first_name':user.first_name,
-                        'email':user.email,
+                        'role':user.role,
                     }
                 }),HTTP_200_OK
 
