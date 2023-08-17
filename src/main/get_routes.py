@@ -90,36 +90,3 @@ def get_user_rooms():
     # Return the list of reservations as JSON
     return jsonify({'reservations': reservation_list})
 
-
-@bp.route('/generateReport', methods=['GET'])
-def generate_report():
-    try:
-        data = request.get_json()
-
-        year = data.get("year")
-        month = data.get("month")
-        date = datetime.datetime(year=year, month=month,day=1)
-
-        profits = 0
-        reservations_booked = 0
-        users_registered = 0
-
-        reservations = Reservation.query.filter(Reservation.created_at.like(f"{year}-{month}-%")).all()
-        for reservation in reservations:
-            room_type = RoomType.query.filter_by(id=reservation.room_type_id).first()
-            if room_type:
-                profits += room_type.price
-                reservations_booked += 1
-
-        users = User.query.filter(User.created_at.like(f"{year}-{month}-%")).all()
-        users_registered = len(users)
-
-        return jsonify({
-            'report': {
-                'profits': profits,
-                'reservations_booked': reservations_booked,
-                'users_registered': users_registered,
-            }
-        }), 200
-    except Exception as e:
-        return jsonify({'error': str(e)}), 400
