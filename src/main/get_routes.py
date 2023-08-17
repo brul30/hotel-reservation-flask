@@ -26,14 +26,14 @@ def check():
 
 
 
-@bp.route('/allRooms', methods=['GET'])
+@bp.route('/show/allRooms', methods=['GET'])
 def get_all_rooms():
     try:
     # Create room type instances 
         if not RoomType.query.all():
             room_type1 = RoomType(name='Standard',room_number=101,price=150,description='Basic room with essential amenities', max_occupancy=2,num_beds=1)
-            room_type2 = RoomType( name='Deluxe',room_number=201,price=150,description='Larger room with additional amenities', max_occupancy=3, num_beds=2)
-            room_type3 = RoomType( name='Suite',room_number=301,price=150,description='Luxurious suite with a separate living area', max_occupancy=4,num_beds=4)
+            room_type2 = RoomType( name='Deluxe',room_number=201,price=250,description='Larger room with additional amenities', max_occupancy=3, num_beds=2)
+            room_type3 = RoomType( name='Suite',room_number=301,price=350,description='Luxurious suite with a separate living area', max_occupancy=4,num_beds=4)
             db.session.add(room_type1)
             db.session.add(room_type2)
             db.session.add(room_type3)
@@ -61,7 +61,7 @@ def get_all_rooms():
         return jsonify({'error': str(e)}),HTTP_500_INTERNAL_SERVER_ERROR
 
 
-@bp.route('/userRooms', methods=['GET'])
+@bp.route('/show/userRooms', methods=['GET'])
 @jwt_required()
 def get_user_rooms():
     user_id = get_jwt_identity()
@@ -69,6 +69,7 @@ def get_user_rooms():
     reservations = Reservation.query.filter_by(user_id=user_id).all()
 
     reservation_list = []
+
     for reservation in reservations:
         roomtype = RoomType.query.get(reservation.room_id)
         reservation_data = {
@@ -83,43 +84,16 @@ def get_user_rooms():
             },
             'date_of_occupancy': reservation.date_of_occupancy,
             'date_of_departure': reservation.date_of_departure,
+            'number_of_guest': reservation.number_of_guest,
+            'is_active':reservation.is_active,
             'reservatio_id': reservation.id
         }
         reservation_list.append(reservation_data)
+        if not reservation_list:
+            return jsonify({
+            "message":'No reservations made'
+        })
     
     # Return the list of reservations as JSON
     return jsonify({'reservations': reservation_list})
 
-
-@bp.route('/generateReport', methods=['GET'])
-def generate_report():
-    try:
-        data = request.get_json()
-
-        year = data.get("year")
-        month = data.get("month")
-        date = datetime.datetime(year=year, month=month,day=1)
-
-        profits = 0
-        reservations_booked = 0
-        users_registered = 0
-
-        reservations = Reservation.query.filter(Reservation.created_at.like(f"{year}-{month}-%")).all()
-        for reservation in reservations:
-            room_type = RoomType.query.filter_by(id=reservation.room_type_id).first()
-            if room_type:
-                profits += room_type.price
-                reservations_booked += 1
-
-        users = User.query.filter(User.created_at.like(f"{year}-{month}-%")).all()
-        users_registered = len(users)
-
-        return jsonify({
-            'report': {
-                'profits': profits,
-                'reservations_booked': reservations_booked,
-                'users_registered': users_registered,
-            }
-        }), 200
-    except Exception as e:
-        return jsonify({'error': str(e)}), 400

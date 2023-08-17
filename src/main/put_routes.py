@@ -17,7 +17,7 @@ def change_reservation(id):
 
     request_data = request.get_json()
     
-    reservation = Reservation.query.filter_by(user_id=current_user,id=id).first()
+    reservation = Reservation.query.filter_by(id=id,user_id=current_user).first()
 
     if not reservation:
         return jsonify({'error':'reservation not found'}),HTTP_204_NO_CONTENT
@@ -38,9 +38,9 @@ def change_reservation(id):
         new_number_of_guest = request_data.get('number_of_guest')
         reservation.number_of_guest = new_number_of_guest  
 
-    if 'is_available' in request_data:
-        new_is_available = request_data.get('is_available')
-        reservation.is_available = new_is_available  
+    if 'is_active' in request_data:
+        if request_data.get('is_active') == "false" or "False":
+            reservation.is_active = False 
                 
     try:
         db.session.commit()
@@ -49,6 +49,19 @@ def change_reservation(id):
         return jsonify({'error': 'failed to update reservation', 'details': str(e)}),        
 
     roomtype = RoomType.query.get(reservation.room_id)
-    return jsonify({''}),HTTP_200_OK
-
+    return jsonify({
+            'room_details': {
+                'id': roomtype.id,
+                'name': roomtype.name,
+                'room_number': roomtype.room_number,
+                'price': roomtype.price,
+                'description': roomtype.description,
+                'max_occupancy': roomtype.max_occupancy,
+                'num_beds': roomtype.num_beds
+            },
+            'date_of_occupancy': reservation.date_of_occupancy,
+            'date_of_departure': reservation.date_of_departure,
+            'reservation_id': reservation.id,
+            'reservation_is_active': reservation.is_active,
+        }),HTTP_200_OK
 
