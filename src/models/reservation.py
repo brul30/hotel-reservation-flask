@@ -7,5 +7,7 @@ class Reservation(db.Model):
     card_number = db.Column(db.String(16), nullable=False)
     date_of_occupancy = db.Column(db.DateTime, nullable=False)
     date_of_departure = db.Column(db.DateTime, nullable=False)
+    number_of_guest = db.Column(db.Integer, nullable=False)
+    is_available=db.Column(db.Boolean,default=True)
     created_at = db.Column(db.DateTime, default=datetime.now())
     updated_at = db.Column(db.DateTime, onupdate=datetime.now())

@@ -91,9 +91,12 @@ def make_reservation():
         # Get data from the request
         data = request.get_json()
 
+        # valid range is from 1-4.
+
         room_id = data.get('room_id')
         user_id = data.get('user_id')
         card_number = data.get('card_number')
+        number_of_guest = data.get('number_of_guest')
 
 
         date_of_occupancy = datetime.datetime(
@@ -110,6 +113,8 @@ def make_reservation():
         if room_id not in {1,2,3}:
             return jsonify({'error':"Invalid room id"}), HTTP_401_UNAUTHORIZED
 
+        if number_of_guest not in {1,2,3,4}:
+            return jsonify({'error':"Invalid guest range"}), HTTP_401_UNAUTHORIZED
 
         # Create a new reservation
         reservation = Reservation(
@@ -117,7 +122,8 @@ def make_reservation():
             user_id=user_id,
             card_number=card_number,  # Use the ID of the found payment record
             date_of_occupancy=date_of_occupancy,
-            date_of_departure=date_of_departure
+            date_of_departure=date_of_departure,
+            number_of_guest=number_of_guest
         )
 
         # Add the reservation to the database
