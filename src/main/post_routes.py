@@ -7,6 +7,7 @@ from src.models.user import User
 from src.models.reservation import Reservation
 from flask_jwt_extended import create_access_token,create_refresh_token,jwt_required,get_jwt_identity
 import validators
+import os
 
 bp = Blueprint('post_routes',__name__)
 
@@ -19,6 +20,13 @@ def register():
         last_name=data.get('last_name')
         email=data.get('email')
         password=data.get('password')
+        manager_code = data.get('manager_code')
+        role='client'
+        static_manager_code = os.getenv("MANGER_KEY")
+
+        if manager_code == static_manager_code:
+            role = 'manager'
+        
         
         if len(password) < 6:
             return jsonify({'error':"password is too short"}),HTTP_400_BAD_REQUEST
@@ -34,11 +42,15 @@ def register():
         
         pwd_hash=generate_password_hash(password)
 
-        user=User(first_name=first_name,last_name=last_name,password=pwd_hash,email=email)
+        user=User(first_name=first_name,last_name=last_name,password=pwd_hash,email=email,role=role)
         db.session.add(user)
         db.session.commit()
+        access=create_access_token(identity=user.id)
 
-        return jsonify({'message': "User Created",}),HTTP_201_CREATED
+        return jsonify({
+            'message': "User Created",
+            'access_token':access
+            }),HTTP_201_CREATED
 
     except Exception as e:
         return jsonify({'error': str(e)}), HTTP_500_INTERNAL_SERVER_ERROR
@@ -57,12 +69,12 @@ def login():
             is_pass_correct = check_password_hash(user.password,password)
             
             if is_pass_correct:
-                refresh=create_refresh_token(identity=user.id)
+#                refresh=create_refresh_token(identity=user.id)
                 access=create_access_token(identity=user.id)
 
                 return jsonify({
                     'user':{
-                        'refresh':refresh,
+                       # 'refresh':refresh,
                         'access': access,
                         'first_name':user.first_name,
                         'email':user.email,
