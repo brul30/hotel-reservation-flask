@@ -1,10 +1,11 @@
-from flask import Blueprint,jsonify
+from flask import Blueprint,jsonify,request
 from flask_jwt_extended import jwt_required,get_jwt_identity
 from src.models.user import User
 from src.models.room import RoomType
 from src.constants.http_status_codes import HTTP_200_OK, HTTP_500_INTERNAL_SERVER_ERROR
 from src.extensions import db
 from src.models.reservation import Reservation
+import datetime
 bp = Blueprint('get_routes',__name__,)
 
 # ``` 
@@ -90,3 +91,35 @@ def get_user_rooms():
     return jsonify({'reservations': reservation_list})
 
 
+@bp.route('/generateReport', methods=['GET'])
+def generate_report():
+    try:
+        data = request.get_json()
+
+        year = data.get("year")
+        month = data.get("month")
+        date = datetime.datetime(year=year, month=month,day=1)
+
+        profits = 0
+        reservations_booked = 0
+        users_registered = 0
+
+        reservations = Reservation.query.filter(Reservation.created_at.like(f"{year}-{month}-%")).all()
+        for reservation in reservations:
+            room_type = RoomType.query.filter_by(id=reservation.room_type_id).first()
+            if room_type:
+                profits += room_type.price
+                reservations_booked += 1
+
+        users = User.query.filter(User.created_at.like(f"{year}-{month}-%")).all()
+        users_registered = len(users)
+
+        return jsonify({
+            'report': {
+                'profits': profits,
+                'reservations_booked': reservations_booked,
+                'users_registered': users_registered,
+            }
+        }), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
