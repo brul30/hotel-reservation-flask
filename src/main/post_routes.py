@@ -49,6 +49,7 @@ def register():
 
         return jsonify({
             'message': "User Created",
+            'first_name':first_name,
             'access_token':access
             }),HTTP_201_CREATED
 
@@ -98,15 +99,18 @@ def refresh_users_token():
 
 
 @bp.route('/makeReservation',methods=["POST"])
+@jwt_required()
 def make_reservation():
     try:
         # Get data from the request
+        user_id = get_jwt_identity()
         data = request.get_json()
 
+        if not User.query.filter_by(id=user_id).first():
+            return jsonify({'error':'User not found'})
         # valid range is from 1-4.
 
         room_id = data.get('room_id')
-        user_id = data.get('user_id')
         card_number = data.get('card_number')
         number_of_guest = data.get('number_of_guest')
 

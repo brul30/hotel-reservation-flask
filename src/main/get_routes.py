@@ -2,10 +2,10 @@ from flask import Blueprint,jsonify,request
 from flask_jwt_extended import jwt_required,get_jwt_identity
 from src.models.user import User
 from src.models.room import RoomType
-from src.constants.http_status_codes import HTTP_200_OK, HTTP_500_INTERNAL_SERVER_ERROR
+from src.constants.http_status_codes import HTTP_200_OK, HTTP_500_INTERNAL_SERVER_ERROR,HTTP_403_FORBIDDEN
 from src.extensions import db
 from src.models.reservation import Reservation
-import datetime
+from sqlalchemy import extract
 bp = Blueprint('get_routes',__name__,)
 
 # ``` 
@@ -65,7 +65,6 @@ def get_all_rooms():
 @jwt_required()
 def get_user_rooms():
     user_id = get_jwt_identity()
-    
     reservations = Reservation.query.filter_by(user_id=user_id).all()
 
     reservation_list = []
@@ -97,3 +96,58 @@ def get_user_rooms():
     # Return the list of reservations as JSON
     return jsonify({'reservations': reservation_list})
 
+@bp.route('/show/report', methods=['GET'])
+@jwt_required()
+def report():
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+
+    # Check if the user's role is 'manager'
+    if user.role == 'manager':
+
+        data = request.get_json()
+        year = data.get('year')
+        month = data.get('month')
+
+        reservations_booked = Reservation.query.filter(
+            extract('year', Reservation.created_at) == year,
+            extract('month', Reservation.created_at) == month
+            ).count()
+
+        cancellation_count = Reservation.query.filter(
+            extract('year', Reservation.created_at) == year,
+            extract('month', Reservation.created_at) == month,
+            Reservation.is_active == False  
+            ).count()
+
+
+        user_registered = User.query.filter(
+            extract('year', User.created_at) == year,
+            extract('month', User.created_at) == month
+            ).count()
+        
+        reservations = Reservation.query.filter(
+            extract('year', Reservation.created_at) == year,
+            extract('month', Reservation.created_at) == month,
+            Reservation.is_active == True  
+            ).all()
+        
+        month_total_profit = 0
+
+        for reservation in reservations:
+            room_type = RoomType.query.get(reservation.room_id)
+            month_total_profit += room_type.price
+
+
+        active_count = reservations_booked-cancellation_count
+
+
+        return jsonify({
+            "reservations_booked":reservations_booked,
+            "cancelled_reservation":cancellation_count,
+            "active_reservations":active_count,
+            "user_registered":user_registered,
+            "month_total_profit":month_total_profit
+            })
+    else:
+        return jsonify({"message": "Unauthorized for manager role"}), HTTP_403_FORBIDDEN
