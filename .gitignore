@@ -160,3 +160,11 @@ cython_debug/
 #.idea/
 
 *.pyc
+
+.gcloudignore
+
+app.yaml
+
+Dockerfile
+
+.dockerignore
