@@ -31,9 +31,9 @@ def get_all_rooms():
     try:
     # Create room type instances 
         if not RoomType.query.all():
-            room_type1 = RoomType(name='Standard',room_number=101,price=150,description='Basic room with essential amenities', max_occupancy=2,num_beds=1)
-            room_type2 = RoomType( name='Deluxe',room_number=201,price=250,description='Larger room with additional amenities', max_occupancy=3, num_beds=2)
-            room_type3 = RoomType( name='Suite',room_number=301,price=350,description='Luxurious suite with a separate living area', max_occupancy=4,num_beds=4)
+            room_type1 = RoomType(name='standard',room_number=101,price=150,description='Basic room with essential amenities', max_occupancy=4,num_beds=1)
+            room_type2 = RoomType( name='deluxe',room_number=201,price=250,description='Larger room with additional amenities', max_occupancy=4, num_beds=1)
+            room_type3 = RoomType( name='suite',room_number=301,price=350,description='Luxurious suite with a separate living area', max_occupancy=4,num_beds=1)
             db.session.add(room_type1)
             db.session.add(room_type2)
             db.session.add(room_type3)
@@ -108,39 +108,58 @@ def report():
         data = request.get_json()
         year = data.get('year')
         month = data.get('month')
+        reservations = Reservation.query.all()
 
-        reservations_booked = Reservation.query.filter(
-            extract('year', Reservation.created_at) == year,
-            extract('month', Reservation.created_at) == month
-            ).count()
+        # reservations_booked = Reservation.query.filter(
+        #     extract('year', Reservation.created_at) == year,
+        #     extract('month', Reservation.created_at) == month
+        #     ).count()
 
-        cancellation_count = Reservation.query.filter(
-            extract('year', Reservation.created_at) == year,
-            extract('month', Reservation.created_at) == month,
-            Reservation.is_active == False  
-            ).count()
+        # cancellation_count = Reservation.query.filter(
+        #     extract('year', Reservation.created_at) == year,
+        #     extract('month', Reservation.created_at) == month,
+        #     Reservation.is_active == False  
+        #     ).count()
 
 
-        user_registered = User.query.filter(
-            extract('year', User.created_at) == year,
-            extract('month', User.created_at) == month
-            ).count()
+        # user_registered = User.query.filter(
+        #     extract('year', User.created_at) == year,
+        #     extract('month', User.created_at) == month
+        #     ).count()
         
-        reservations = Reservation.query.filter(
-            extract('year', Reservation.created_at) == year,
-            extract('month', Reservation.created_at) == month,
-            Reservation.is_active == True  
-            ).all()
+        # reservations = Reservation.query.filter(
+        #     extract('year', Reservation.created_at) == year,
+        #     extract('month', Reservation.created_at) == month,
+        #     Reservation.is_active == True  
+        #     ).all()
         
+        # month_total_profit = 0
+
+        # for reservation in reservations:
+        #     room_type = RoomType.query.get(reservation.room_id)
+        #     month_total_profit += room_type.price
+        
+        # active_count = reservations_booked-cancellation_count
+
+        cancellation_count = 0
+        user_registered = 0
+        active_count = 0
         month_total_profit = 0
 
         for reservation in reservations:
-            room_type = RoomType.query.get(reservation.room_id)
-            month_total_profit += room_type.price
+            if (reservation.created_at.year == year) and (reservation.created_at.month == month):
+                if reservation.is_active:
+                  active_count += 1
+                  room_type = RoomType.query.get(reservation.room_id)
+                  month_total_profit += room_type.price
+                else:
+                  cancellation_count += 1
 
+        for user in user_registered:
+            if (user.created_at.year == year) and (user.created_at.month == month):
+                user_registered_count += 1
 
-        active_count = reservations_booked-cancellation_count
-
+        reservations_booked = active_count + cancellation_count
 
         return jsonify({
             "reservations_booked":reservations_booked,
