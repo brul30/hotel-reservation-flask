@@ -31,9 +31,9 @@ def get_all_rooms():
     try:
     # Create room type instances 
         if not RoomType.query.all():
-            room_type1 = RoomType(name='Standard',room_number=101,price=150,description='Basic room with essential amenities', max_occupancy=2,num_beds=1)
-            room_type2 = RoomType( name='Deluxe',room_number=201,price=250,description='Larger room with additional amenities', max_occupancy=3, num_beds=2)
-            room_type3 = RoomType( name='Suite',room_number=301,price=350,description='Luxurious suite with a separate living area', max_occupancy=4,num_beds=4)
+            room_type1 = RoomType(name='standard',room_number=101,price=150,description='Basic room with essential amenities', max_occupancy=4,num_beds=1)
+            room_type2 = RoomType( name='deluxe',room_number=201,price=250,description='Larger room with additional amenities', max_occupancy=4, num_beds=1)
+            room_type3 = RoomType( name='suite',room_number=301,price=350,description='Luxurious suite with a separate living area', max_occupancy=4,num_beds=1)
             db.session.add(room_type1)
             db.session.add(room_type2)
             db.session.add(room_type3)
