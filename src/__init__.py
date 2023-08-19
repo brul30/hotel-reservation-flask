@@ -13,8 +13,7 @@ from src.constants.http_status_codes import HTTP_404_NOT_FOUND,HTTP_500_INTERNAL
 def create_app(test_config=Config):
     
     app = Flask(__name__, instance_relative_config=True)
-
-    app.config.from_object(Config)
+    app.config.from_object(Config) 
 
     from src.main import bp as main_bp
     

@@ -113,6 +113,7 @@ def make_reservation():
         room_id = data.get('room_id')
         card_number = data.get('card_number')
         number_of_guest = data.get('number_of_guest')
+        total_price = data.get('total_price')
 
 
         date_of_occupancy = datetime.datetime(
@@ -125,18 +126,21 @@ def make_reservation():
             month=data.get("date_of_departure")["month"],
             day=data.get("date_of_departure")["day"]
         )
+        if len(card_number) != 16:
+            return jsonify({'error':"Invalid room id"}), HTTP_400_BAD_REQUEST
 
         if room_id not in {1,2,3}:
-            return jsonify({'error':"Invalid room id"}), HTTP_401_UNAUTHORIZED
+            return jsonify({'error':"Invalid room id"}), HTTP_400_BAD_REQUEST
 
         if number_of_guest not in {1,2,3,4}:
-            return jsonify({'error':"Invalid guest range"}), HTTP_401_UNAUTHORIZED
+            return jsonify({'error':"Invalid guest range"}), HTTP_400_BAD_REQUEST
 
         # Create a new reservation
         reservation = Reservation(
             room_id=room_id,
+            total_price = total_price,
             user_id=user_id,
-            card_number=card_number,  # Use the ID of the found payment record
+            card_number=card_number, 
             date_of_occupancy=date_of_occupancy,
             date_of_departure=date_of_departure,
             number_of_guest=number_of_guest
