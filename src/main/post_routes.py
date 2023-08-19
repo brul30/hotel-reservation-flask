@@ -1,67 +1,92 @@
+import datetime
 from flask import Blueprint,request,jsonify 
-
 from werkzeug.security import check_password_hash,generate_password_hash
-from src.constants.http_status_codes import HTTP_400_BAD_REQUEST, HTTP_409_CONFLICT, HTTP_201_CREATED , HTTP_401_UNAUTHORIZED,HTTP_200_OK, HTTP_404_NOT_FOUND
-import validators
+from src.constants.http_status_codes import HTTP_400_BAD_REQUEST, HTTP_409_CONFLICT, HTTP_201_CREATED , HTTP_401_UNAUTHORIZED,HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR
 from src.extensions import db
 from src.models.user import User
-from src.models.room import HotelRoom
-from datetime import datetime
+from src.models.reservation import Reservation
 from flask_jwt_extended import create_access_token,create_refresh_token,jwt_required,get_jwt_identity
+import validators
+import os
 
 bp = Blueprint('post_routes',__name__)
 
 @bp.route('/auth/register',methods=["POST"])
 def register():
-    
-    first_name=request.json['first_name']
-    last_name=request.json['last_name']
-    email=request.json['email']
-    password=request.json['password']
-    
-    if len(password) < 6:
-        return jsonify({'error':"password is too short"}),HTTP_400_BAD_REQUEST
+    try:
+        data = request.get_json()
 
-    if not validators.email(email):
-        return jsonify({'error':"email is not valid"}),HTTP_400_BAD_REQUEST
+        first_name=data.get('first_name')
+        last_name=data.get('last_name')
+        email=data.get('email')
+        password=data.get('password')
+        manager_code = data.get('manager_code')
+        role='client'
+        static_manager_code = os.getenv("MANGER_KEY")
 
-    if User.query.filter_by(email=email).first() is not None:
-        return jsonify({'error':"email is taken"}),HTTP_400_BAD_REQUEST
-    
-    if User.query.filter_by(email=email).first() is not None:
-        return jsonify({'error':"email is taken"}),HTTP_409_CONFLICT
-    
-    pwd_hash=generate_password_hash(password)
+        if manager_code == static_manager_code:
+            role = 'manager'
+        
+        
+        if len(password) < 6:
+            return jsonify({'error':"password is too short"}),HTTP_400_BAD_REQUEST
 
-    user=User(first_name=first_name,last_name=last_name,password=pwd_hash,email=email)
-    db.session.add(user)
-    db.session.commit()
+        if not validators.email(email):
+            return jsonify({'error':"email is not valid"}),HTTP_400_BAD_REQUEST
 
-    return jsonify({
-        'message': "User Created",
-    }),HTTP_201_CREATED
+        if User.query.filter_by(email=email).first() is not None:
+            return jsonify({'error':"email is taken"}),HTTP_400_BAD_REQUEST
+        
+        if User.query.filter_by(email=email).first() is not None:
+            return jsonify({'error':"email is taken"}),HTTP_409_CONFLICT
+        
+        pwd_hash=generate_password_hash(password)
 
+        user=User(first_name=first_name,last_name=last_name,password=pwd_hash,email=email,role=role)
+        db.session.add(user)
+        db.session.commit()
+        access=create_access_token(identity=user.id)
+
+        return jsonify({
+            'message': "User Created",
+            'first_name':first_name,
+            'access_token':access
+            }),HTTP_201_CREATED
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), HTTP_500_INTERNAL_SERVER_ERROR
 
 @bp.route('/auth/login',methods=["POST"])
 def login():
-    email = request.json.get('email', '')
-    password = request.json.get('password', '')
+    try:
+        data = request.get_json()
 
-    user=User.query.filter_by(email=email).first()
+        email = data.get('email')
+        password = data.get('password')
 
-    if user:
-        is_pass_correct = check_password_hash(user.password,password)
-        
-        if is_pass_correct:
-            refresh=create_refresh_token(identity=user.id)
-            access=create_access_token(identity=user.id)
+        user=User.query.filter_by(email=email).first()
 
-            return jsonify({
-                'user':user,
-                'refresh':refresh,
-                'access': access,
-            }),HTTP_200_OK
-    return jsonify({'error':"Wrong crdentials"}), HTTP_401_UNAUTHORIZED
+        if user:
+            is_pass_correct = check_password_hash(user.password,password)
+            
+            if is_pass_correct:
+#                refresh=create_refresh_token(identity=user.id)
+                access=create_access_token(identity=user.id)
+
+                return jsonify({
+                    'user':{
+                       # 'refresh':refresh,
+                        'access': access,
+                        'first_name':user.first_name,
+                        'role':user.role,
+                    }
+                }),HTTP_200_OK
+
+        return jsonify({'error':"Wrong crdentials"}), HTTP_401_UNAUTHORIZED
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), HTTP_500_INTERNAL_SERVER_ERROR
+
 
 
 @bp.route('/auth/token/refresh',methods=["POST"])
@@ -70,38 +95,63 @@ def refresh_users_token():
     identity = get_jwt_identity()
     access = create_access_token (identity=identity)
 
-    return jsonify({
-        'access':access
-    }),HTTP_200_OK
+    return jsonify({'access':access}),HTTP_200_OK
 
-# Accept room_id, checkin_date and checkout_id
-# Return true if the room is available for the above dates
-@bp.route('/check_availability', methods=['POST'])
-def check_room_availability():
+
+@bp.route('/makeReservation',methods=["POST"])
+@jwt_required()
+def make_reservation():
     try:
-        # Get data from the request JSON
+        # Get data from the request
+        user_id = get_jwt_identity()
         data = request.get_json()
+
+        if not User.query.filter_by(id=user_id).first():
+            return jsonify({'error':'User not found'})
+        # valid range is from 1-4.
+
         room_id = data.get('room_id')
-        checkin_date_js = data.get('checkin_date')
-        checkout_date_js = data.get('checkout_date')
+        card_number = data.get('card_number')
+        number_of_guest = data.get('number_of_guest')
 
-        # Convert JavaScript Date objects to Python datetime objects
-        checkin_date = datetime.strptime(checkin_date_js, '%Y-%m-%dT%H:%M:%S.%fZ')
-        checkout_date = datetime.strptime(checkout_date_js, '%Y-%m-%dT%H:%M:%S.%fZ')
 
-        # Fetch the room based on room_id
-        room = HotelRoom.query.get(room_id)
+        date_of_occupancy = datetime.datetime(
+            year=data.get("date_of_occupancy")["year"],
+            month=data.get("date_of_occupancy")["month"],
+            day=data.get("date_of_occupancy")["day"]
+        )
+        date_of_departure = datetime.datetime(
+            year=data.get("date_of_departure")["year"],
+            month=data.get("date_of_departure")["month"],
+            day=data.get("date_of_departure")["day"]
+        )
 
-        if not room:
-            return jsonify({'error': 'Room not found'}), HTTP_404_NOT_FOUND
+        if room_id not in {1,2,3}:
+            return jsonify({'error':"Invalid room id"}), HTTP_401_UNAUTHORIZED
 
-        # Check if the room is available for the specified stay period
-        reservations = room.reservations
-        for reservation in reservations:
-            if checkin_date <= reservation.checkout_date or checkout_date >= reservation.checkin_date:
-                return jsonify({'isRoomAvailable': False}),HTTP_200_OK
+        if number_of_guest not in {1,2,3,4}:
+            return jsonify({'error':"Invalid guest range"}), HTTP_401_UNAUTHORIZED
 
-        return jsonify({'isRoomAvailable': True}),HTTP_200_OK
+        # Create a new reservation
+        reservation = Reservation(
+            room_id=room_id,
+            user_id=user_id,
+            card_number=card_number,  # Use the ID of the found payment record
+            date_of_occupancy=date_of_occupancy,
+            date_of_departure=date_of_departure,
+            number_of_guest=number_of_guest
+        )
+
+        # Add the reservation to the database
+        db.session.add(reservation)
+        db.session.commit()
+
+        return jsonify({'message': 'Reservation successfully created'}), HTTP_200_OK
 
     except Exception as e:
-        return jsonify({'error': str(e)}),HTTP_400_BAD_REQUEST
+        return jsonify({'error': str(e)}), HTTP_500_INTERNAL_SERVER_ERROR
+    
+
+
+
+    

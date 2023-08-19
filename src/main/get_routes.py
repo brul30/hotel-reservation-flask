@@ -1,15 +1,17 @@
-from flask import Blueprint,jsonify
-from flask_jwt_extended import create_access_token,create_refresh_token,jwt_required,get_jwt_identity
+from flask import Blueprint,jsonify,request
+from flask_jwt_extended import jwt_required,get_jwt_identity
 from src.models.user import User
-from src.models.room import HotelRoom
-from src.constants.http_status_codes import HTTP_200_OK, HTTP_500_INTERNAL_SERVER_ERROR
+from src.models.room import RoomType
+from src.constants.http_status_codes import HTTP_200_OK, HTTP_500_INTERNAL_SERVER_ERROR,HTTP_403_FORBIDDEN
+from src.extensions import db
+from src.models.reservation import Reservation
+from sqlalchemy import extract
 bp = Blueprint('get_routes',__name__,)
 
-@bp.route("/hotel/me",methods=["GET"])
-def me():
-    return "me"
-
-
+# ``` 
+# This endpoint is not doing anything, I made it to rest jwt_required
+# I will deleted in due time, DO NOT DELETE 
+# ````
 @bp.route("/auth/userHomePage",methods=["GET"])
 @jwt_required()
 def check():
@@ -18,26 +20,37 @@ def check():
     user = User.query.filter_by(id=user_id).first()
 
     return jsonify({
-        'user': user,
+        'first_name' : user.first_name,
+        'id':user.id
     }),HTTP_200_OK
 
 
-@bp.route('/rooms', methods=['GET'])
+
+@bp.route('/show/allRooms', methods=['GET'])
 def get_all_rooms():
     try:
+    # Create room type instances 
+        if not RoomType.query.all():
+            room_type1 = RoomType(name='Standard',room_number=101,price=150,description='Basic room with essential amenities', max_occupancy=2,num_beds=1)
+            room_type2 = RoomType( name='Deluxe',room_number=201,price=250,description='Larger room with additional amenities', max_occupancy=3, num_beds=2)
+            room_type3 = RoomType( name='Suite',room_number=301,price=350,description='Luxurious suite with a separate living area', max_occupancy=4,num_beds=4)
+            db.session.add(room_type1)
+            db.session.add(room_type2)
+            db.session.add(room_type3)
+            db.session.commit()
         # Fetch all rooms from the database
-        rooms = HotelRoom.query.all()
+        rooms = RoomType.query.all()
 
         # Convert the list of room objects to a list of dictionaries
         rooms_data = [
             {
                 'id': room.id,
+                'name': room.name,
                 'room_number': room.room_number,
-                'capacity': room.capacity,
                 'price': room.price,
-                'room_type': room.room_type,
-                'num_beds': room.num_beds,
-                'floor': room.floor
+                'description': room.description,
+                'max_occupancy': room.max_occupancy,
+                'num_beds': room.num_beds
             }
             for room in rooms
         ]
