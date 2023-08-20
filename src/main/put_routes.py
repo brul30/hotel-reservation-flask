@@ -62,6 +62,7 @@ def change_reservation(id):
             'date_of_occupancy': reservation.date_of_occupancy,
             'date_of_departure': reservation.date_of_departure,
             'reservation_id': reservation.id,
+            'total_price': reservation.total_price,
             'reservation_is_active': reservation.is_active,
         }),HTTP_200_OK
 

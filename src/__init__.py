@@ -14,7 +14,7 @@ def create_app(test_config=Config):
     
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(Config) 
-    CORS(app, resources={r"/api/*": {"origins": "https://main.d3h5714ovsmoy5.amplifyapp.com/"}})
+    CORS(app)
 
     from src.main import bp as main_bp
     
