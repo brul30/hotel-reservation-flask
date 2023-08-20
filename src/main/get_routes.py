@@ -86,7 +86,7 @@ def get_user_rooms():
             'number_of_guest': reservation.number_of_guest,
             'is_active':reservation.is_active,
             'total_price':reservation.total_price,
-            'reservatio_id': reservation.id
+            'reservation_id': reservation.id
         }
         reservation_list.append(reservation_data)
         if not reservation_list:
