@@ -76,7 +76,7 @@ def get_user_rooms():
                 'room_id': roomtype.id,
                 'name': roomtype.name,
                 'room_number': roomtype.room_number,
-                'price_per_day': roomtype.price,
+                'price': roomtype.price,
                 'description': roomtype.description,
                 'max_occupancy': roomtype.max_occupancy,
                 'num_beds': roomtype.num_beds
