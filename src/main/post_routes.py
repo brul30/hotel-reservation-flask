@@ -1,4 +1,5 @@
 import datetime
+import smtplib
 from flask import Blueprint,request,jsonify , current_app
 from werkzeug.security import check_password_hash,generate_password_hash
 from src.constants.http_status_codes import HTTP_400_BAD_REQUEST, HTTP_409_CONFLICT, HTTP_201_CREATED , HTTP_401_UNAUTHORIZED,HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR
@@ -8,7 +9,7 @@ from src.models.reservation import Reservation
 from flask_jwt_extended import create_access_token,create_refresh_token,jwt_required,get_jwt_identity
 import validators
 import os
-#from flask_mail import Message
+from email.mime.text import MIMEText
 
 
 bp = Blueprint('post_routes',__name__)
@@ -17,7 +18,7 @@ bp = Blueprint('post_routes',__name__)
 def register():
     try:
         data = request.get_json()
-
+        
         first_name=data.get('first_name')
         last_name=data.get('last_name')
         email=data.get('email')
@@ -26,7 +27,6 @@ def register():
         role='client'
         static_manager_code = os.getenv("MANGER_KEY")
 
-#        mail = current_app.extensions['mail']
         if manager_code == static_manager_code:
             role = 'manager'
         
@@ -49,6 +49,30 @@ def register():
         db.session.add(user)
         db.session.commit()
         access=create_access_token(identity=user.id)
+
+     #   mail = current_app.extensions['mail']
+
+        sender = 'HoteldeLuna@example.com'
+        receiver = email
+        msg = MIMEText(
+             f"Dear {first_name},\n\n"
+            "Welcome to Hotel de Luna! We are delighted to have you as a member of our hotel community. Whether you're here for business or leisure, we're committed to providing you with a memorable and comfortable stay.\n\n"
+            "At Hotel de Luna, we believe in personalized service and exceptional hospitality. Our dedicated staff is here to ensure your stay is both relaxing and enjoyable. From our cozy rooms to our exquisite dining options, we aim to make your experience with us truly special.\n\n"
+            "Feel free to reach out to our concierge for any assistance or inquiries you may have during your stay. We're here to make your time with us as seamless as possible.\n\n"
+            "Thank you for choosing Hotel de Luna. We look forward to serving you and creating wonderful memories together.\n\n"
+            "Best regards,\n"
+            "The Hotel del Luna Team"
+        )
+        msg['Subject'] = 'Welcome to Hotel de Luna!'
+        msg['From'] = 'HoteldeLuna@example.com'
+        msg['To'] = email
+        user=os.getenv("MAIL_USER")
+        password=os.getenv("MAIL_PASSWORD")
+
+        with smtplib.SMTP("smtp.mailtrap.io", 2525) as server:
+            server.login(user, password)
+            server.sendmail(sender, receiver, msg.as_string())
+            print("mail successfully sent")
 
         return jsonify({
             'message': "User Created",
@@ -112,6 +136,7 @@ def make_reservation():
         if not User.query.filter_by(id=user_id).first():
             return jsonify({'error':'User not found'})
         # valid range is from 1-4.
+        user = User.query.get(user_id)
 
         room_id = data.get('room_id')
         card_number = data.get('card_number')
@@ -152,6 +177,34 @@ def make_reservation():
         # Add the reservation to the database
         db.session.add(reservation)
         db.session.commit()
+
+        sender = 'HoteldeLuna@example.com'
+        receiver = user.email
+
+        msg = MIMEText(
+            f"Dear {user.first_name},\n\n"
+            "Thank you for choosing Hotel de Luna! Your reservation details are as follows:\n\n"
+            f"Amount Charged: {total_price}\n"
+            f"Check-in Date: {date_of_occupancy}\n"
+            f"Check-out Date: {date_of_departure}\n"
+            # Include other reservation details
+
+            "We're excited to welcome you to our hotel. If you have any questions or need assistance, feel free to contact us.\n\n"
+            "Best regards,\n"
+            "The Hotel del Luna Team"
+        )
+
+        msg['Subject'] = 'Welcome to Hotel de Luna!'
+        msg['From'] = 'HoteldeLuna@example.com'
+        msg['To'] = user.email
+        user=os.getenv("MAIL_USER")
+        password=os.getenv("MAIL_PASSWORD")
+
+        with smtplib.SMTP("smtp.mailtrap.io", 2525) as server:
+            server.login(user, password)
+            server.sendmail(sender, receiver, msg.as_string())
+            print("mail successfully sent")
+
 
         return jsonify({'message': 'Reservation successfully created'}), HTTP_200_OK
 
