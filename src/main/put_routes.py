@@ -1,3 +1,4 @@
+import datetime
 from flask import Blueprint,request,jsonify 
 from src.constants.http_status_codes import HTTP_400_BAD_REQUEST, HTTP_409_CONFLICT, HTTP_201_CREATED , HTTP_401_UNAUTHORIZED,HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR,HTTP_204_NO_CONTENT
 from src.extensions import db
@@ -27,11 +28,20 @@ def change_reservation(id):
         reservation.room_id = room_type_id
 
     if 'date_of_occupancy' in request_data:
-        new_date_of_occupancy = request_data.get('date_of_occupancy')
+
+        new_date_of_occupancy = datetime.datetime(
+            year=request_data.get("date_of_occupancy")["year"],
+            month=request_data.get("date_of_occupancy")["month"],
+            day=request_data.get("date_of_occupancy")["day"]
+        )
         reservation.date_of_occupancy = new_date_of_occupancy
 
     if 'date_of_departure' in request_data:
-        new_date_of_departure = request_data.get('date_of_departure')
+        new_date_of_departure = datetime.datetime(
+            year=request_data.get("date_of_departure")["year"],
+            month=request_data.get("date_of_departure")["month"],
+            day=request_data.get("date_of_departure")["day"]
+        )
         reservation.date_of_departure = new_date_of_departure  
 
     if 'number_of_guest' in request_data:
@@ -41,7 +51,7 @@ def change_reservation(id):
     if 'is_active' in request_data:
         if request_data.get('is_active') == "false" or "False":
             reservation.is_active = False 
-                
+
     try:
         db.session.commit()
     except Exception as e:

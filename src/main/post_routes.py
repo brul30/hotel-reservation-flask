@@ -1,5 +1,5 @@
 import datetime
-from flask import Blueprint,request,jsonify 
+from flask import Blueprint,request,jsonify , current_app
 from werkzeug.security import check_password_hash,generate_password_hash
 from src.constants.http_status_codes import HTTP_400_BAD_REQUEST, HTTP_409_CONFLICT, HTTP_201_CREATED , HTTP_401_UNAUTHORIZED,HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR
 from src.extensions import db
@@ -8,6 +8,8 @@ from src.models.reservation import Reservation
 from flask_jwt_extended import create_access_token,create_refresh_token,jwt_required,get_jwt_identity
 import validators
 import os
+#from flask_mail import Message
+
 
 bp = Blueprint('post_routes',__name__)
 
@@ -24,6 +26,7 @@ def register():
         role='client'
         static_manager_code = os.getenv("MANGER_KEY")
 
+#        mail = current_app.extensions['mail']
         if manager_code == static_manager_code:
             role = 'manager'
         
@@ -157,5 +160,46 @@ def make_reservation():
     
 
 
+@bp.route('/show/report', methods=['PUT'])
+@jwt_required()
+def report():
+    try:
+        current_user_id = get_jwt_identity()
+        user = User.query.get(current_user_id)
 
-    
+        # Check if the user's role is 'manager'
+        data = request.get_json()
+        year = data.get('year')
+        month = data.get('month')
+        reservations = Reservation.query.all()
+
+        cancellation_count = 0
+        active_count = 0
+        month_total_profit = 0
+        user_registered_count = 0
+
+        for reservation in reservations:
+            if (reservation.created_at.year == year) and (reservation.created_at.month == month):
+                if reservation.is_active:
+                    active_count += 1
+                    # room_type = RoomType.query.get(reservation.room_id)
+                    month_total_profit += reservation.total_price
+                else:
+                    cancellation_count += 1
+                    
+        clients = User.query.all()
+        for user in clients:
+            if (user.created_at.year == year) and (user.created_at.month == month):
+                user_registered_count += 1
+
+        reservations_booked = active_count + cancellation_count
+
+        return jsonify({
+                "reservations_booked":reservations_booked,
+                "cancelled_reservation":cancellation_count,
+                "active_reservations":active_count,
+                "user_registered":user_registered_count,
+                "month_total_profit":month_total_profit
+                })
+    except Exception as e:
+        return jsonify({'error': str(e)}),HTTP_500_INTERNAL_SERVER_ERROR
