@@ -8,15 +8,11 @@ from src.extensions import db
 from flask_jwt_extended import JWTManager
 from config import Config
 from src.constants.http_status_codes import HTTP_404_NOT_FOUND,HTTP_500_INTERNAL_SERVER_ERROR
-from flask_cors import CORS
-from flask_mail import Mail
 
 def create_app(test_config=Config):
     
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(Config) 
-    CORS(app)
-    main = Mail(app)
 
     from src.main import bp as main_bp
     
