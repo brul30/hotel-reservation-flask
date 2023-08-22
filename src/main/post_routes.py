@@ -26,9 +26,6 @@ def register():
         manager_code = data.get('manager_code')
         role='client'
         static_manager_code = os.getenv("MANGER_KEY")
-
-        if manager_code == static_manager_code:
-            role = 'manager'
         
         
         if len(password) < 6:
