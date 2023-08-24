@@ -28,7 +28,6 @@ def change_reservation(id):
         reservation.room_id = room_type_id
 
     if 'date_of_occupancy' in request_data:
-
         new_date_of_occupancy = datetime.datetime(
             year=request_data.get("date_of_occupancy")["year"],
             month=request_data.get("date_of_occupancy")["month"],
