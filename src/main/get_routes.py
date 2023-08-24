@@ -1,3 +1,13 @@
+"""
+a) get_routes.py
+b) August 2023
+c) Miguel Hernandez
+d) This module defines a Flask Blueprint named 'get_routes' that handles various GET endpoints related to retrieving room and reservation information.
+e) It provides routes for fetching room details, user-specific reservations, and a test endpoint.
+Requires JWT authentication.
+Returns user's first name and ID in JSON format.
+Returns HTTP 200 OK if successful. """
+
 from flask import Blueprint,jsonify,request
 from flask_jwt_extended import jwt_required,get_jwt_identity
 from src.models.user import User

@@ -1,3 +1,10 @@
+"""
+a) put_routes.py
+b) August 2023
+c) Miguel Hernandez
+d) This blueprint defines a route and functionality for updating reservation details for a user in the application.
+e) Updates reservation details for the authenticated user. """
+
 import datetime
 from flask import Blueprint,request,jsonify 
 from src.constants.http_status_codes import HTTP_400_BAD_REQUEST, HTTP_409_CONFLICT, HTTP_201_CREATED , HTTP_401_UNAUTHORIZED,HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR,HTTP_204_NO_CONTENT
@@ -28,7 +35,6 @@ def change_reservation(id):
         reservation.room_id = room_type_id
 
     if 'date_of_occupancy' in request_data:
-
         new_date_of_occupancy = datetime.datetime(
             year=request_data.get("date_of_occupancy")["year"],
             month=request_data.get("date_of_occupancy")["month"],
@@ -55,6 +61,10 @@ def change_reservation(id):
     if 'is_active' in request_data:
         if request_data.get('is_active') == "false" or "False":
             reservation.is_active = False 
+            
+    if 'total_price' in request_data:
+        new_total_price = request_data.get('total_price')
+        reservation.total_price = new_total_price 
 
     try:
         db.session.commit()
