@@ -210,7 +210,7 @@ def make_reservation():
     
 
 
-@bp.route('/show/report', methods=['PUT'])
+@bp.route('/show/report', methods=['POST'])
 @jwt_required()
 def report():
     try:
