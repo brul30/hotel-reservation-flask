@@ -1,15 +1,24 @@
+
+"""
+a) __init__.py
+b) July 2023
+c) Miguel Hernandez 
+d) This File will contain the application factory. 
+It's used to initialize the application instance and set up any necessary configurations or extensions. 
+e) Serves as a factory function, every time we import src __init__.py is automatically imported
+The __init__.py serves double duty: it will contain the application factory, 
+and it tells Python that the HotelBackend directory should be treated as a package. """
 #factory function
 #everytime we import src __init__.py is automatically imported
 
-# The __init__.py serves double duty: it will contain the application factory, 
-# and it tells Python that the HotelBackend directory should be treated as a package.
 from flask import Flask,jsonify
 from src.extensions import db
 from flask_jwt_extended import JWTManager
 from config import Config
 from src.constants.http_status_codes import HTTP_404_NOT_FOUND,HTTP_500_INTERNAL_SERVER_ERROR
 from flask_cors import CORS
-
+"""Factory Function for Creating Flask Application
+This module contains a factory function `create_app` that is responsible for creating and configuring a Flask application for the HotelBackend project. """
 def create_app(test_config=Config):
     
     app = Flask(__name__, instance_relative_config=True)

@@ -1,3 +1,9 @@
+"""
+a) Config.py
+b) July 2023
+c) Miguel Hernandez
+d) Gets our application configuration from our .env file. """
+
 from datetime import timedelta
 import os
 from dotenv import load_dotenv

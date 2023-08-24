@@ -1,3 +1,10 @@
+"""
+a) put_routes.py
+b) August 2023
+c) Miguel Hernandez
+d) This blueprint defines a route and functionality for updating reservation details for a user in the application.
+e) Updates reservation details for the authenticated user. """
+
 import datetime
 from flask import Blueprint,request,jsonify 
 from src.constants.http_status_codes import HTTP_400_BAD_REQUEST, HTTP_409_CONFLICT, HTTP_201_CREATED , HTTP_401_UNAUTHORIZED,HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR,HTTP_204_NO_CONTENT

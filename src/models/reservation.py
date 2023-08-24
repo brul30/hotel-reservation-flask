@@ -1,3 +1,10 @@
+"""
+a) Reservation.py
+b) July 2023
+c) Miguel Hernandez 
+d)  This module defines the Reservation class model used for storing reservation information in a database.
+e) A class representing a reservation, containing details such as room, user, guests, dates, cost, and payment. """
+
 from src.extensions import db
 from datetime import datetime
 class Reservation(db.Model):

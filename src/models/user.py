@@ -1,3 +1,10 @@
+"""
+a) user.py
+b) July 2023
+c) Miguel Hernandez
+d) This module defines the User class model used for storing user information in a database.
+e) A class representing a user, including details such as name, email, password, and reservation history."""
+
 from src.extensions import db
 from datetime import datetime
 
