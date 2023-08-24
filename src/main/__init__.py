@@ -2,7 +2,8 @@
 a) main.blueprint.py
 b) August 2023
 c) Miguel Hernandez 
-d) This module demonstrates the use of Flask Blueprints to organize and structure routes within a Flask application. """
+d) This module demonstrates the use of Flask Blueprints to organize and structure routes within a Flask application.
+ """
 
 from flask import Blueprint
 bp = Blueprint('main',__name__,url_prefix="/api/v1")
