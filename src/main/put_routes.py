@@ -57,6 +57,10 @@ def change_reservation(id):
     if 'is_active' in request_data:
         if request_data.get('is_active') == "false" or "False":
             reservation.is_active = False 
+            
+    if 'total_price' in request_data:
+        new_total_price = request_data.get('total_price')
+        reservation.total_price = new_total_price 
 
     try:
         db.session.commit()
