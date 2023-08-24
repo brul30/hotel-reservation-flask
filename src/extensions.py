@@ -9,7 +9,7 @@ d) SQLAlchemy is a database toolkit and object-relational mapper for the Python 
 
 # This is used for setting up the SQLAlchemy database 
 # SQLAlchemy is a database toolkit and object-relational mapper for the Python programming language.aa
-# 
+
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 

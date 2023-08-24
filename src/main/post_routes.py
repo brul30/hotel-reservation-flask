@@ -3,7 +3,8 @@ a) post_routes.py
 b) August 2023
 c) Miguel Hernandez 
 d) This module defines a Flask Blueprint named 'post_routes' 
-that handles various POST endpoints related to user registration, login, token refresh, and reservation creation."""
+that handles various POST endpoints related to user registration, login, token refresh, and reservation creation.
+"""
 
 import datetime
 import smtplib
@@ -34,6 +35,10 @@ def register():
         role='client'
         static_manager_code = os.getenv("MANGER_KEY")
         
+        if manager_code == static_manager_code:
+            role = 'manager'
+
+
         if len(password) < 6:
             return jsonify({'error':"password is too short"}),HTTP_400_BAD_REQUEST
 
